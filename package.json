@@ -1,0 +1,18 @@
+{
+  "name": "tutoring-helper",
+  "version": "5.0.0",
+  "private": true,
+  "description": "Standalone lesson worksheet editor",
+  "scripts": {
+    "start": "python3 -m http.server 8765 --bind 0.0.0.0",
+    "test": "node --test tests/app.test.cjs",
+    "bundle:vendor": "node scripts/bundle-vendor.cjs",
+    "test:book": "node --test tests/real-book.test.cjs"
+  },
+  "devDependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
+    "pdfjs-dist": "6.4.299",
+    "playwright": "1.62.1",
+    "tesseract.js": "7.0.0"
+  }
+}
