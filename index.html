@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>과외 수업교재 제작 도구 · v5.2</title>
+<title>과외 수업교재 제작 도구 · v5.3</title>
 <style>html,body{margin:0;padding:0;background:#f1f5fb}button,input,select{font:inherit}</style>
 </head>
 <body>
@@ -129,12 +129,12 @@
 #folio-popout-root .settings{flex-wrap:wrap}
 #folio-popout-root .sheet canvas{image-rendering:auto}
 </style>
-<header><div class="brand"><i class="mark">f</i>folio<span>수업교재 스튜디오 · v5.2</span></div><div class="actions"><button class="small" id="popoutBtn">브라우저 새 탭 ↗</button><button class="quiet small" id="helpBtn">사용 안내</button><button class="small" id="saveBtn">작업 저장</button><button class="small" id="openBtn">불러오기</button><button class="primary" id="pdfBtn">PDF 내려받기 ↗</button></div></header>
+<header><div class="brand"><i class="mark">f</i>folio<span>수업교재 스튜디오 · v5.3</span></div><div class="actions"><button class="small" id="popoutBtn">브라우저 새 탭 ↗</button><button class="quiet small" id="helpBtn">사용 안내</button><button class="small" id="saveBtn">작업 저장</button><button class="small" id="openBtn">불러오기</button><button class="primary" id="pdfBtn">PDF 내려받기 ↗</button></div></header>
 <div class="launch-card"><div><strong>브라우저에서 크게 편집하기</strong><p class="muted">현재 작업을 새 탭에서 이어서 열 수 있어요.</p><details id="browserHelp"><summary>Chrome · Edge에서 여는 방법</summary><p id="browserHint">아래 ‘앱 HTML 저장’을 누르고, 내려받은 HTML 파일을 마우스 오른쪽 버튼 → ‘연결 프로그램’ → Chrome 또는 Edge로 여세요. 새 탭이 차단된 경우에도 이 방법으로 열 수 있어요.</p></details></div><div class="actions"><button id="launchBtn" class="primary">새 탭으로 열기 ↗</button><button id="downloadAppBtn">앱 HTML 저장</button></div></div>
 <div class="intro"><div><div class="eyebrow">LESSON MATERIALS</div><h1>다음 수업을, 한 권으로.</h1><p class="muted">20쪽 이상 한 번에 추출하고, 최대 4문제씩 여유 있게 배치하세요.</p></div><span class="pill" id="modePill">쎈 미적분Ⅰ · 추출 예시</span></div>
 <div class="layout">
 <aside class="panel sidebar"><div class="section-label"><b>01</b> 원본 교재</div><button class="upload" id="uploadBtn"><strong>＋ 원본 PDF 또는 페이지 이미지 선택</strong><span>PDF · JPG · PNG · 여러 이미지 가능</span></button><input class="hidden" type="file" id="fileInput" accept="application/pdf,image/png,image/jpeg,image/webp" multiple><input class="hidden" type="file" id="projectInput" accept="application/json,.json"><div class="file-name" id="fileLabel">쎈 미적분Ⅰ에서 준비한 예시가 열려 있어요.</div><div class="row"><div style="flex:1"><label class="field" for="rangeInput">PDF 페이지 범위</label><input id="rangeInput" class="full" value="1-20" placeholder="예: 1-20, 25-30"></div><div style="width:86px"><label class="field" for="columnInput">원본 구성</label><select id="columnInput" class="full"><option value="auto">자동</option><option value="1">1단</option><option value="2">2단</option></select></div></div><button class="primary full" id="analyzeBtn" style="margin-top:12px">자동 추출하기</button><p class="note">PDF·이미지 지원. 원본을 선택한 뒤 범위를 분석하세요. 20쪽 이상 순차 처리 · 1회 페이지 수 제한 없음. 문제 번호로 자동 분리합니다. 분리 결과와 구분을 확인하세요.</p><div class="rule"></div>
-<div class="section-label"><b>02</b> 교재에 넣을 조각 <span id="blockCount" class="count"></span></div><div class="row"><button id="pairBtn" class="small" style="flex:1">유형별 대표 1 + 적용 1</button><button id="allBtn" class="small">전체</button><button id="noneBtn" class="small">해제</button></div><label class="checklabel" style="margin-top:10px"><input type="checkbox" id="conceptCheck" checked>개념 포함</label><p class="note">회색 보기 박스와 가는 수식 선을 포함해 본문 픽셀을 원본 그대로 유지합니다.</p><div id="blockList" class="block-list"></div><div class="rule"></div><button id="seedBtn" class="small full">쎈 예시로 돌아가기</button><p class="note">예시는 원본 PDF 1·5·6쪽에서 준비한 개념 2개와 문제 4개예요. 원본 배율을 유지하고 회색 잡티를 정리합니다. PDF는 300 DPI 무손실로 출력해요.</p>
+<div class="section-label"><b>02</b> 교재에 넣을 조각 <span id="blockCount" class="count"></span></div><div class="row"><button id="pairBtn" class="small" style="flex:1">유형별 대표 1 + 적용 1</button><button id="allBtn" class="small">전체</button><button id="noneBtn" class="small">해제</button></div><label class="checklabel" style="margin-top:10px"><input type="checkbox" id="conceptCheck" checked>개념 포함</label><label class="checklabel" style="margin-top:8px"><input type="checkbox" id="paperCleanupCheck" checked>문제 배경 정리</label><p class="note">흰 종이의 옅은 잡티를 줄이고 글자·그림·보기 테두리를 보호합니다. 해제하면 원본으로 보며 PDF에도 같은 설정을 적용합니다.</p><div id="blockList" class="block-list"></div><div class="rule"></div><button id="seedBtn" class="small full">쎈 예시로 돌아가기</button><p class="note">예시는 원본 PDF 1·5·6쪽에서 준비한 개념 2개와 문제 4개예요. 원본 배율을 유지하고 회색 잡티를 정리합니다. PDF는 300 DPI 무손실로 출력해요.</p>
 </aside>
 <main class="panel workspace"><div class="worktop"><input class="titleinput" id="titleInput" aria-label="교재 제목" value="함수의 극한 · 개념과 유형"><div class="toolbar"><div class="tabs"><button id="previewTab" class="active">교재 미리보기</button><button id="sourceTab">원본 · 자르기</button></div><div class="settings"><select id="zoomInput" aria-label="미리보기 확대"><option value="0">화면 맞춤</option><option value="100">100% 보기</option><option value="150">150% 보기</option><option value="200">200% 보기</option></select><span class="pill">2×2 · 최대 4문제</span><select id="spaceInput" aria-label="풀이 공간"><option value="100">풀이 공간 작게</option><option value="165" selected>풀이 공간 보통</option><option value="245">풀이 공간 넉넉히</option></select><select id="themeInput" aria-label="교재 색상"><option value="navy" selected>블루</option><option value="mono">흑백</option></select><button class="small" id="printBtn">인쇄</button></div></div></div>
 <div id="editor" class="editor hidden"><div class="editor-fields"><label>조각 구분<select id="kindInput"><option value="concept">개념</option><option value="rep">대표문제</option><option value="apply">적용문제</option></select></label><label>유형 번호<input id="groupInput" type="number" min="0" max="99"></label><label>표시 이름<input id="labelInput" placeholder="문제번호 또는 소제목"></label></div><div class="cropbar"><button class="small" id="applyCropBtn">드래그 영역으로 수정</button><button class="small" id="addCropBtn">드래그 영역 추가</button><button class="small" id="resetCropBtn">자르기 되돌리기</button><button class="small" id="removeBtn" style="margin-left:auto">조각 삭제</button></div><p class="note" id="cropHint"></p></div>
@@ -1733,7 +1733,73 @@ function bodyHeight(src){
  releaseCanvas(c);heights.sort((a,b)=>a-b);
  return heights.length>=4?heights[Math.floor(heights.length*.6)]/s:null;
 }
-function cleanCanvas(src){const c=canvas(src.width,src.height);c.getContext('2d').drawImage(src,0,0);return c}
+// Background cleanup never resamples or sharpens foreground pixels. Estimate paper locally,
+// then discard only detached, pale components while protecting mathematical/diagram strokes.
+function cleanCanvas(src){
+ const c=canvas(src.width,src.height),g=c.getContext('2d',{willReadFrequently:true});g.drawImage(src,0,0);const w=c.width,h=c.height,im=g.getImageData(0,0,w,h),d=im.data,n=w*h,cell=64,cols=Math.ceil(w/cell),rows=Math.ceil(h/cell),paper=new Float32Array(cols*rows*3),hist=new Uint32Array(256),bases=[[],[],[]];
+ for(let gy=0;gy<rows;gy++)for(let gx=0;gx<cols;gx++){
+  const x0=gx*cell,y0=gy*cell,x1=Math.min(w,x0+cell),y1=Math.min(h,y0+cell);hist.fill(0);let total=0;
+  for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){const k=(y*w+x)*4,lo=Math.min(d[k],d[k+1],d[k+2]),hi=Math.max(d[k],d[k+1],d[k+2]);if(lo>=190&&hi-lo<=40){hist[Math.round((d[k]+d[k+1]+d[k+2])/3)]++;total++}}
+  let cutoff=245,seen=0;if(total)for(cutoff=255;cutoff>0;cutoff--){seen+=hist[cutoff];if(seen>=total*.12)break}
+  const sum=[0,0,0];let count=0;
+  for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){const k=(y*w+x)*4;if(Math.min(d[k],d[k+1],d[k+2])>=190&&Math.max(d[k],d[k+1],d[k+2])-Math.min(d[k],d[k+1],d[k+2])<=40&&(d[k]+d[k+1]+d[k+2])/3>=cutoff){sum[0]+=d[k];sum[1]+=d[k+1];sum[2]+=d[k+2];count++}}
+  const at=(gy*cols+gx)*3;for(let z=0;z<3;z++){paper[at+z]=count?sum[z]/count:255;bases[z].push(paper[at+z])}
+ }
+ // Only clean confidently white paper. Coloured paper/photos keep their original tones.
+ const base=bases.map(a=>a.sort((a,b)=>a-b)[a.length>>1]);
+ if(Math.min(...base)<248)return c;
+ for(let i=0;i<paper.length;i++)paper[i]=Math.max(paper[i],base[i%3]-10);
+ const weak=new Uint8Array(n),contrast=new Uint8Array(n),strong=new Uint8Array(n),integral=new Uint32Array((w+1)*(h+1)),queue=new Int32Array(n),xparts=[];
+ for(let x=0;x<w;x++){const fx=Math.max(0,Math.min(cols-1,(x+.5)/cell-.5)),ix=Math.floor(fx);xparts.push([ix,Math.min(cols-1,ix+1),fx-ix])}
+ for(let y=0;y<h;y++){
+  const fy=Math.max(0,Math.min(rows-1,(y+.5)/cell-.5)),iy=Math.floor(fy),jy=Math.min(rows-1,iy+1),ty=fy-iy;let rowSum=0;
+  for(let x=0;x<w;x++){
+   const i=y*w+x,k=i*4,[ix,jx,tx]=xparts[x],bg=[];
+   for(let z=0;z<3;z++){const top=paper[(iy*cols+ix)*3+z]*(1-tx)+paper[(iy*cols+jx)*3+z]*tx,bottom=paper[(jy*cols+ix)*3+z]*(1-tx)+paper[(jy*cols+jx)*3+z]*tx;bg[z]=top*(1-ty)+bottom*ty}
+   const lo=Math.min(d[k],d[k+1],d[k+2]),hi=Math.max(d[k],d[k+1],d[k+2]),delta=Math.max(bg[0]-d[k],bg[1]-d[k+1],bg[2]-d[k+2]),neutral=hi-lo<10;
+   contrast[i]=Math.max(0,Math.min(255,Math.round(delta)));strong[i]=lo<185||delta>=50||hi-lo>=35||(Math.min(...bg)>=248&&hi<=215)?1:0;
+   weak[i]=!strong[i]&&(delta>6||(neutral&&Math.max(...base)-hi>20))?1:0;
+   rowSum+=strong[i];integral[(y+1)*(w+1)+x+1]=integral[y*(w+1)+x+1]+rowSum;
+
+  }
+ }
+ // Also retain the very light outer antialiasing immediately beside dark ink.
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+  const i=y*w+x;if(strong[i]||weak[i])continue;
+  const x0=Math.max(0,x-2),x1=Math.min(w,x+3),y0=Math.max(0,y-2),y1=Math.min(h,y+3);
+  if(!(integral[y1*(w+1)+x1]-integral[y0*(w+1)+x1]-integral[y1*(w+1)+x0]+integral[y0*(w+1)+x0])){const k=i*4;d[k]=d[k+1]=d[k+2]=255}
+ }
+ const dashes=[];
+ for(let i=0;i<n;i++){
+  if(!weak[i])continue;let begin=0,end=1,left=i%w,right=left,top=i/w|0,bottom=top,sum=0,neutral=0;queue[0]=i;weak[i]=0;
+  while(begin<end){const p=queue[begin++],x=p%w,y=p/w|0,k=p*4;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);sum+=contrast[p];neutral+=Math.max(d[k],d[k+1],d[k+2])-Math.min(d[k],d[k+1],d[k+2])<10;
+   for(let yy=Math.max(0,y-1);yy<=Math.min(h-1,y+1);yy++)for(let xx=Math.max(0,x-1);xx<=Math.min(w-1,x+1);xx++){const q=yy*w+xx;if(weak[q]){weak[q]=0;queue[end++]=q}}
+  }
+  const bw=right-left+1,bh=bottom-top+1,x0=Math.max(0,left-2),y0=Math.max(0,top-2),x1=Math.min(w,right+3),y1=Math.min(h,bottom+3),anchors=integral[y1*(w+1)+x1]-integral[y0*(w+1)+x1]-integral[y1*(w+1)+x0]+integral[y0*(w+1)+x0];
+  const line=(Math.max(bw,bh)>=80||Math.max(bw,bh)>=40&&Math.max(bw,bh)/Math.min(bw,bh)>=4||Math.min(bw,bh)>=38)&&sum/end>=8;
+  const fill=end>=100&&end/(bw*bh)>.55&&neutral/end>.8&&sum/end>=15;
+  // Keep text antialiasing next to ink, pale frames/curves, shading and short math bars.
+  const bar=(bw>=8&&bh<=3)||(bh>=8&&bw<=3);
+  if(!anchors&&!line&&!fill&&!bar){
+   if((bw<=12&&bh<=3)||(bh<=12&&bw<=3))dashes.push({left,right,top,bottom,pixels:queue.slice(0,end),keep:false});
+   else for(let j=0;j<end;j++){const k=queue[j]*4;d[k]=d[k+1]=d[k+2]=255}
+  }
+ }
+ // Repeated pale dots/dashes are diagram strokes, even when detached from dark ink.
+ // Inspect both axes before erasing isolated tiny fragments.
+ for(const vertical of [false,true]){
+  const bins=new Map(),center=a=>vertical?(a.left+a.right)/2:(a.top+a.bottom)/2;
+  const start=a=>vertical?a.top:a.left,end=a=>vertical?a.bottom:a.right;
+  for(const a of dashes){if(vertical?a.right-a.left>2:a.bottom-a.top>2)continue;const key=Math.floor(center(a)/3);if(!bins.has(key))bins.set(key,[]);bins.get(key).push(a)}
+  for(const key of bins.keys()){
+   const list=[...(bins.get(key-1)||[]),...bins.get(key),...(bins.get(key+1)||[])].sort((a,b)=>start(a)-start(b));let run=[];
+   const finish=()=>{if(run.length>=3&&end(run[run.length-1])-start(run[0])>=32)for(const a of run)a.keep=true;run=[]};
+   for(const a of list){const last=run[run.length-1];if(last&&(start(a)-end(last)>24||Math.abs(center(a)-center(run[0]))>2))finish();run.push(a)}finish();
+  }
+ }
+ for(const a of dashes)if(!a.keep)for(const i of a.pixels){const k=i*4;d[k]=d[k+1]=d[k+2]=255}
+ g.putImageData(im,0,0);return c;
+}
 let auditPromise;
 async function auditBlock(b){
  if(b.audited&&(!b.sourceNumbers||b.sourceNumbers.length<=1))return[b];
@@ -1782,6 +1848,7 @@ function normalizeUnknownScales(blocks){
  for(const b of unknown){b.referenceWidth=Math.max(b.width,b.bodyHeight*ratio);b.referenceInferred=false}
 }
 async function cropCanvas(b,clean=false){
+ clean=!!clean&&b.kind!=='concept';
  const key=b.id+':'+clean;
  if(bitmaps.has(key)){const found=bitmaps.get(key);bitmaps.delete(key);bitmaps.set(key,found);return found.image}
  if(!b.asset)throw Error('문제 이미지를 찾지 못했어요. 원본에서 다시 추출해 주세요.');
@@ -1807,7 +1874,7 @@ function renderList(){
  }
  root.classList.toggle('muted',!state.blocks.length);if(!state.blocks.length)root.textContent='원본을 분석하면 추출 후보가 표시돼요.';
 }
-function selectedSettings(){return{title:$('titleInput').value,columns:2,space:+$('spaceInput').value,theme:$('themeInput').value,concept:$('conceptCheck').checked,clean:false}}
+function selectedSettings(){return{title:$('titleInput').value,columns:2,space:+$('spaceInput').value,theme:$('themeInput').value,concept:$('conceptCheck').checked,clean:$('paperCleanupCheck').checked,paperCleanup:$('paperCleanupCheck').checked}}
 const PAPER={W:794,H:1123,M:45,gap:24,top:105,bottom:1075,rowGap:24,CW:340};
 function makePlans(bs,settings){
  const {top,bottom,rowGap,CW}=PAPER,cellHeight=(bottom-top-rowGap)/2,fullWidth=CW*2+PAPER.gap,plans=[];let plan;
@@ -1920,7 +1987,7 @@ async function importFiles(files){
  }catch(e){tell(e.message||String(e),true)}finally{setBusy(false);$('fileInput').value=''}
 }
 function setBusy(b){
- state.busy=b;if(b)previewObserver?.disconnect();for(const id of ['analyzeBtn','uploadBtn','seedBtn','pdfBtn','printBtn','openBtn','saveBtn','pairBtn','allBtn','noneBtn','popoutBtn','launchBtn','downloadAppBtn','applyCropBtn','addCropBtn','resetCropBtn','removeBtn','prevPageBtn','nextPageBtn','sourcePageInput','spaceInput','themeInput','titleInput','rangeInput','conceptCheck','previewTab','sourceTab','kindInput','groupInput','labelInput','columnInput'])$(id).disabled=b;
+ state.busy=b;if(b)previewObserver?.disconnect();for(const id of ['analyzeBtn','uploadBtn','seedBtn','pdfBtn','printBtn','openBtn','saveBtn','pairBtn','allBtn','noneBtn','popoutBtn','launchBtn','downloadAppBtn','applyCropBtn','addCropBtn','resetCropBtn','removeBtn','prevPageBtn','nextPageBtn','sourcePageInput','spaceInput','themeInput','titleInput','rangeInput','conceptCheck','paperCleanupCheck','previewTab','sourceTab','kindInput','groupInput','labelInput','columnInput'])$(id).disabled=b;
  for(const input of $('blockList').querySelectorAll('input'))input.disabled=b;
  $('analyzeBtn').textContent=b?'처리 중…':'자동 추출하기';if(!b){$('pdfBtn').disabled=!state.plans?.length;$('printBtn').disabled=!state.plans?.length;renderEditor();for(const c of state.pages)previewObserver?.observe(c)}
 }
@@ -1962,7 +2029,7 @@ async function openProject(f){
   for(const a of p.blocks){if(!/^data:image\/(png|jpeg);base64,/.test(a.image))throw Error('작업 이미지 형식이 올바르지 않아요.');const blob=new Blob([bytes64(a.image.split(',')[1])],{type:a.image.includes('image/png')?'image/png':'image/jpeg'}),im=await imageFromBlob(blob);if(im.width*im.height>20_000_000){im.close?.();throw Error('작업 이미지 한 개의 크기가 너무 커요.')}
    const b=newBlock({kind:['concept','rep','apply'].includes(a.kind)?a.kind:'apply',group:+a.group||0,page:+a.page||1,label:String(a.label||''),selected:!!a.selected,number:a.number||null,sourceNumbers:Array.isArray(a.sourceNumbers)?a.sourceNumbers:[],verifiedConcept:!!a.verifiedConcept});await freezeBlock(b,im,Number.isFinite(a.referenceWidth)&&a.referenceWidth>0?a.referenceWidth:null);im.close?.();b.audited=p.format==='folio-lesson-v3'&&a.audited===true&&b.sourceNumbers.length<=1;blocks.push(b);
   }
-  normalizeUnknownScales(blocks);const s=p.settings||{};$('titleInput').value=s.title||'수업교재';$('spaceInput').value=[100,165,245].includes(+s.space)?String(s.space):'165';$('themeInput').value=s.theme==='mono'?'mono':'navy';$('conceptCheck').checked=s.concept!==false;
+  normalizeUnknownScales(blocks);const s=p.settings||{};$('titleInput').value=s.title||'수업교재';$('spaceInput').value=[100,165,245].includes(+s.space)?String(s.space):'165';$('themeInput').value=s.theme==='mono'?'mono':'navy';$('conceptCheck').checked=s.concept!==false;$('paperCleanupCheck').checked=s.paperCleanup!==false;
   clearBitmaps();state.blocks=blocks;state.active=null;state.crop=null;$('modePill').textContent='저장한 작업';renderList();renderEditor();await renderOutput();setTab('preview');tell('저장한 조각과 배율을 불러왔어요. 범위를 다시 자르려면 같은 원본 PDF를 선택하세요.');
  }catch(e){tell(e.message,true)}finally{setBusy(false);$('projectInput').value=''}
 }
@@ -2402,7 +2469,7 @@ $('popoutBtn').onclick=openStandaloneWindow;
 $('launchBtn').onclick=openStandaloneWindow;
 $('downloadAppBtn').onclick=downloadStandaloneApp;
 
-$('uploadBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=e=>importFiles(e.target.files);$('analyzeBtn').onclick=analyze;$('seedBtn').onclick=loadSeed;$('pairBtn').onclick=()=>selectPairs();$('allBtn').onclick=()=>{state.blocks.forEach(b=>b.selected=true);renderList();schedule()};$('noneBtn').onclick=()=>{state.blocks.forEach(b=>b.selected=false);renderList();schedule()};$('conceptCheck').onchange=()=>{renderList();schedule()};for(const id of ['titleInput','spaceInput','themeInput'])$(id).addEventListener('input',schedule);$('previewTab').onclick=()=>setTab('preview');$('sourceTab').onclick=()=>setTab('source');for(const id of ['kindInput','groupInput','labelInput'])$(id).addEventListener('input',editField);$('applyCropBtn').onclick=()=>applyCrop(false);$('addCropBtn').onclick=()=>applyCrop(true);$('resetCropBtn').onclick=resetCrop;$('removeBtn').onclick=()=>{state.blocks=state.blocks.filter(b=>b.id!==state.active);state.active=null;state.crop=null;renderList();renderEditor();schedule()};$('pdfBtn').onclick=exportPDF;$('printBtn').onclick=printPages;$('saveBtn').onclick=saveProject;$('openBtn').onclick=()=>$('projectInput').click();$('projectInput').onchange=e=>openProject(e.target.files[0]);$('helpBtn').onclick=()=>$('help').classList.remove('hidden');$('closeHelpBtn').onclick=()=>$('help').classList.add('hidden');$('help').onclick=e=>{if(e.target===$('help'))$('help').classList.add('hidden')};$('sourcePageInput').onchange=()=>{const total=state.pdf?.pages.length||state.images.length;if(total){state.active=null;renderEditor();renderSource(Math.max(1,Math.min(total,+$('sourcePageInput').value||1)))}};$('prevPageBtn').onclick=()=>{if(state.sourcePage>1){state.active=null;renderEditor();renderSource(state.sourcePage-1)}};$('nextPageBtn').onclick=()=>{const total=state.pdf?.pages.length||state.images.length;if(state.sourcePage<total){state.active=null;renderEditor();renderSource(state.sourcePage+1)}};document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('help').classList.add('hidden');state.crop=null;showSelection(null);renderEditor()}});for(const name of ['dragenter','dragover'])$('uploadBtn').addEventListener(name,e=>{e.preventDefault();$('uploadBtn').classList.add('drop-active')});$('uploadBtn').addEventListener('dragleave',()=>$('uploadBtn').classList.remove('drop-active'));$('uploadBtn').addEventListener('drop',e=>{e.preventDefault();$('uploadBtn').classList.remove('drop-active');importFiles(e.dataTransfer.files)});(async()=>{if(window.__FOLIO_PROJECT__)await openProject(new Blob([JSON.stringify(window.__FOLIO_PROJECT__)],{type:'application/json'}));else await loadSeed()})().catch(e=>tell('앱을 시작하지 못했어요: '+e.message,true));
+$('uploadBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=e=>importFiles(e.target.files);$('analyzeBtn').onclick=analyze;$('seedBtn').onclick=loadSeed;$('pairBtn').onclick=()=>selectPairs();$('allBtn').onclick=()=>{state.blocks.forEach(b=>b.selected=true);renderList();schedule()};$('noneBtn').onclick=()=>{state.blocks.forEach(b=>b.selected=false);renderList();schedule()};$('conceptCheck').onchange=()=>{renderList();schedule()};for(const id of ['titleInput','spaceInput','themeInput','paperCleanupCheck'])$(id).addEventListener('input',schedule);$('previewTab').onclick=()=>setTab('preview');$('sourceTab').onclick=()=>setTab('source');for(const id of ['kindInput','groupInput','labelInput'])$(id).addEventListener('input',editField);$('applyCropBtn').onclick=()=>applyCrop(false);$('addCropBtn').onclick=()=>applyCrop(true);$('resetCropBtn').onclick=resetCrop;$('removeBtn').onclick=()=>{state.blocks=state.blocks.filter(b=>b.id!==state.active);state.active=null;state.crop=null;renderList();renderEditor();schedule()};$('pdfBtn').onclick=exportPDF;$('printBtn').onclick=printPages;$('saveBtn').onclick=saveProject;$('openBtn').onclick=()=>$('projectInput').click();$('projectInput').onchange=e=>openProject(e.target.files[0]);$('helpBtn').onclick=()=>$('help').classList.remove('hidden');$('closeHelpBtn').onclick=()=>$('help').classList.add('hidden');$('help').onclick=e=>{if(e.target===$('help'))$('help').classList.add('hidden')};$('sourcePageInput').onchange=()=>{const total=state.pdf?.pages.length||state.images.length;if(total){state.active=null;renderEditor();renderSource(Math.max(1,Math.min(total,+$('sourcePageInput').value||1)))}};$('prevPageBtn').onclick=()=>{if(state.sourcePage>1){state.active=null;renderEditor();renderSource(state.sourcePage-1)}};$('nextPageBtn').onclick=()=>{const total=state.pdf?.pages.length||state.images.length;if(state.sourcePage<total){state.active=null;renderEditor();renderSource(state.sourcePage+1)}};document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('help').classList.add('hidden');state.crop=null;showSelection(null);renderEditor()}});for(const name of ['dragenter','dragover'])$('uploadBtn').addEventListener(name,e=>{e.preventDefault();$('uploadBtn').classList.add('drop-active')});$('uploadBtn').addEventListener('dragleave',()=>$('uploadBtn').classList.remove('drop-active'));$('uploadBtn').addEventListener('drop',e=>{e.preventDefault();$('uploadBtn').classList.remove('drop-active');importFiles(e.dataTransfer.files)});(async()=>{if(window.__FOLIO_PROJECT__)await openProject(new Blob([JSON.stringify(window.__FOLIO_PROJECT__)],{type:'application/json'}));else await loadSeed()})().catch(e=>tell('앱을 시작하지 못했어요: '+e.message,true));
 
 </script>
 </body>

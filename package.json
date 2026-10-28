@@ -1,14 +1,15 @@
 {
   "name": "tutoring-helper",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "private": true,
   "description": "Standalone lesson worksheet editor",
   "scripts": {
     "start": "python3 -m http.server 8765 --bind 0.0.0.0",
-    "test": "node --test --test-concurrency=1 tests/app.test.cjs tests/ocr-startup.test.cjs tests/concepts.test.cjs",
+    "test": "node --test --test-concurrency=1 tests/app.test.cjs tests/ocr-startup.test.cjs tests/concepts.test.cjs tests/background-cleanup.test.cjs",
     "bundle:vendor": "node scripts/bundle-vendor.cjs",
     "test:book": "node --test tests/real-book.test.cjs",
-    "test:concepts": "node --test tests/real-concepts.test.cjs"
+    "test:concepts": "node --test tests/real-concepts.test.cjs",
+    "test:background": "node --test tests/real-background.test.cjs"
   },
   "devDependencies": {
     "@tesseract.js-data/eng": "1.0.0",
