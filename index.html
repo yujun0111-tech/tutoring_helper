@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>과외 수업교재 제작 도구 · v5.1</title>
+<title>과외 수업교재 제작 도구 · v5.2</title>
 <style>html,body{margin:0;padding:0;background:#f1f5fb}button,input,select{font:inherit}</style>
 </head>
 <body>
@@ -129,7 +129,7 @@
 #folio-popout-root .settings{flex-wrap:wrap}
 #folio-popout-root .sheet canvas{image-rendering:auto}
 </style>
-<header><div class="brand"><i class="mark">f</i>folio<span>수업교재 스튜디오 · v5.1</span></div><div class="actions"><button class="small" id="popoutBtn">브라우저 새 탭 ↗</button><button class="quiet small" id="helpBtn">사용 안내</button><button class="small" id="saveBtn">작업 저장</button><button class="small" id="openBtn">불러오기</button><button class="primary" id="pdfBtn">PDF 내려받기 ↗</button></div></header>
+<header><div class="brand"><i class="mark">f</i>folio<span>수업교재 스튜디오 · v5.2</span></div><div class="actions"><button class="small" id="popoutBtn">브라우저 새 탭 ↗</button><button class="quiet small" id="helpBtn">사용 안내</button><button class="small" id="saveBtn">작업 저장</button><button class="small" id="openBtn">불러오기</button><button class="primary" id="pdfBtn">PDF 내려받기 ↗</button></div></header>
 <div class="launch-card"><div><strong>브라우저에서 크게 편집하기</strong><p class="muted">현재 작업을 새 탭에서 이어서 열 수 있어요.</p><details id="browserHelp"><summary>Chrome · Edge에서 여는 방법</summary><p id="browserHint">아래 ‘앱 HTML 저장’을 누르고, 내려받은 HTML 파일을 마우스 오른쪽 버튼 → ‘연결 프로그램’ → Chrome 또는 Edge로 여세요. 새 탭이 차단된 경우에도 이 방법으로 열 수 있어요.</p></details></div><div class="actions"><button id="launchBtn" class="primary">새 탭으로 열기 ↗</button><button id="downloadAppBtn">앱 HTML 저장</button></div></div>
 <div class="intro"><div><div class="eyebrow">LESSON MATERIALS</div><h1>다음 수업을, 한 권으로.</h1><p class="muted">20쪽 이상 한 번에 추출하고, 최대 4문제씩 여유 있게 배치하세요.</p></div><span class="pill" id="modePill">쎈 미적분Ⅰ · 추출 예시</span></div>
 <div class="layout">
@@ -1737,7 +1737,7 @@ function cleanCanvas(src){const c=canvas(src.width,src.height);c.getContext('2d'
 let auditPromise;
 async function auditBlock(b){
  if(b.audited&&(!b.sourceNumbers||b.sourceNumbers.length<=1))return[b];
- const image=await imageFromBlob(b.asset),parts=await segment(image,'1',{cropped:true}),numbered=parts.filter(a=>a.number);
+ const image=await imageFromBlob(b.asset),parts=await segment(image,'1',{cropped:true,concept:b.kind==='concept'}),numbered=parts.filter(a=>a.number);
  const use=numbered.length?parts.filter(a=>a.number||a.verifiedConcept):parts.length>1?parts:[];
  if(use.length>1){
   const children=[];
@@ -1816,7 +1816,7 @@ function makePlans(bs,settings){
   if(b.sourceNumbers?.length>1)throw Error('한 조각에 여러 문제 번호가 남아 있어요. 원본에서 다시 분리해 주세요.');
   if(b.number&&b.kind==='concept')b.kind='apply';
   // Wide concept text needs a full row to retain a readable body size.
-  const reference=Math.max(b.width,b.referenceWidth||b.width),wide=b.kind==='concept'&&b.verifiedConcept&&!b.number&&!b.sourceNumbers?.length&&(!b.bodyHeight||b.bodyHeight*CW/reference<9.5),columnSpan=wide?2:1,boxWidth=wide?fullWidth:CW;
+  const reference=Math.max(b.width,b.referenceWidth||b.width),wide=b.kind==='concept'&&b.verifiedConcept&&!b.number&&!b.sourceNumbers?.length,columnSpan=wide?2:1,boxWidth=wide?fullWidth:CW;
   const normalScale=boxWidth/reference,minWork=b.kind==='concept'?12:Math.min(80,settings.space*.4),available=cellHeight-34-minWork;
   const tall=b.height*normalScale>available*(wide?1.12:1);
   if(!plan)fresh();
@@ -1935,7 +1935,7 @@ async function analyze(){
    }await nextFrame();
   }
   if(!out.length)throw Error('자동으로 나눌 영역을 찾지 못했어요. 원본 단 수를 확인하거나 원본 화면에서 영역을 직접 추가하세요.');
-  clearBitmaps();state.blocks=out;state.active=out[0].id;state.crop=null;state.seed=false;renderList();renderEditor();await renderOutput();setTab('preview');$('modePill').textContent='자동 추출 후보 · 확인 필요';tell(`${ps.length}쪽에서 조각 ${out.length}개를 찾았어요. 번호별로 각각 선택했어요. 원본과 잘린 범위를 확인해 주세요.`);
+  clearBitmaps();state.blocks=out;state.active=out[0].id;state.crop=null;state.seed=false;renderList();renderEditor();await renderOutput();setTab('preview');$('modePill').textContent='자동 추출 후보 · 확인 필요';tell(`${ps.length}쪽에서 개념 ${out.filter(b=>b.kind==='concept').length}개와 문제 ${out.filter(b=>b.kind!=='concept').length}개를 찾았어요. 개념은 본문을 묶고 문제는 번호별로 나눴어요.`);
  }catch(e){clearBitmaps();state.blocks=previous.blocks;state.active=previous.active;tell(e.message||String(e),true)}finally{setBusy(false)}
 }
 async function renderSource(forcePage){
@@ -2073,7 +2073,7 @@ async function colorHeaders(data,W,H,x0,x1,start,bottom,options={}){
   for(let x=a.left;x<=a.right;x++){let n=0;for(let y=a.y;y<a.end;y++)if(a.gray?Math.min(data[(y*W+x)*4],data[(y*W+x)*4+1],data[(y*W+x)*4+2])<180:hue(data,(y*W+x)*4)===a.colorType)n++;projection.push(n)}
   let right=a.right,gap=0;
   for(let x=a.left;x<=a.right;x++){if(projection[x-a.left])gap=0;else gap++;if(gap>=Math.max(5,h*.38)&&x-a.left>h*.8){right=x-gap+1;break}}
-  a.badgeWidth=right-a.left+1;a.numberRight=right;a.solidColor=projection.slice(0,right-a.left+1).filter(n=>n>=h*.85).length/Math.max(1,right-a.left+1);
+  a.badgeWidth=right-a.left+1;a.numberRight=right;a.glyphHeight=h;a.solidColor=projection.slice(0,right-a.left+1).filter(n=>n>=h*.85).length/Math.max(1,right-a.left+1);
   a.orangeFill=a.colorType==='orange'&&(a.solidColor>.22&&a.badgeWidth/h<3||a.badgeWidth/h>3.3&&a.badgeWidth>65);
   if(a.orangeFill)right=Math.min(right,Math.ceil(a.left+h*2.7));
   if(a.colorType==='other')continue;
@@ -2095,14 +2095,14 @@ async function colorHeaders(data,W,H,x0,x1,start,bottom,options={}){
  const words=await recognizeNumberTiles(tiles),headers=[];
  for(let i=0;i<tiles.length;i++){const hits=words.filter(a=>a.i===i);if(hits.length>1){const text=hits.map(a=>a.text).join('');if(/^\d{4}$/.test(text))words.push({i,text,confidence:Math.min(...hits.map(a=>a.confidence))})}}
  for(let i=0;i<candidates.length;i++){
-  const a=candidates[i],hits=words.filter(w=>tiles[w.i]?.candidate===i).sort((a,b)=>b.confidence-a.confidence),hit=hits.find(w=>/^\d{4}$/.test(w.text)&&+w.text>0),concept=hits.find(w=>/^\d{2}-\d(?:-\d)?$/.test(w.text));
+  const a=candidates[i],hits=words.filter(w=>tiles[w.i]?.candidate===i).sort((a,b)=>b.confidence-a.confidence),hit=hits.find(w=>/^\d{4}$/.test(w.text)&&+w.text>0),concept=hits.find(w=>/^\d{1,2}-\d{1,2}$/.test(w.text)&&+w.text.split('-')[0]>0);
   if(options.debug)options.debug.push({...a,hits});
   if(a.colorType==='other')continue;
   if(a.colorType==='green'&&a.badgeWidth/(a.end-a.y)<2.3&&a.end-a.y>=18&&a.badgeWidth<65&&!(hit?.confidence>=70)){headers.push({...a,kind:'boundary'});continue}
   if(hit){
    const orange=a.colorType==='orange'||(()=>{let n=0,total=0;for(let y=a.y;y<a.end;y++)for(let x=a.left;x<=a.numberRight;x++){const k=(y*W+x)*4;if(colored(k)){total++;if(data[k]>170&&data[k+1]>85&&data[k+1]<180&&data[k+2]<125)n++}}return total&&n/total>.65})();
    headers.push({...a,number:hit.text,numberAlternatives:[...new Set(hits.filter(w=>/^\d{4}$/.test(w.text)).map(w=>w.text))],kind:orange&&a.badgeWidth>65?'rep':'apply',confidence:hit.confidence,needsReview:hit.confidence<35});
-  }else if(concept)headers.push({...a,kind:'concept',verifiedConcept:true,confidence:concept.confidence});
+  }else if(concept&&a.orangeFill&&a.glyphHeight>=18&&a.badgeWidth/a.glyphHeight<3.3)headers.push({...a,kind:'concept',verifiedConcept:true,conceptCode:concept.text.replace(/^(\d)-/,'0$1-'),confidence:concept.confidence});
   else if(a.orangeFill&&a.numberRight-a.left<65&&(a.numberRight-a.left)/(a.end-a.y)>1.5)headers.push({...a,kind:'concept',verifiedConcept:false,needsReview:true});
   else if(a.orangeFill&&a.badgeWidth>=65)headers.push({...a,kind:'rep',needsReview:true,confidence:0});
   else if(!a.gray){
@@ -2197,24 +2197,69 @@ function conceptContentRight(data,W,x0,x1,start,end){
  // Graph edges and empty outer borders are not commentary dividers.
  return neighbour<height*.25&&rightInk>60?best-4:x1;
 }
+function conceptTitleBands(data,W,H,start,bottom,cropped=false){
+ // A chapter concept has a small orange code plus a long, neutral title rule.
+ // TIP/ex icons and highlighted prose do not have this enclosing title shape.
+ const prefix=Math.floor(W*.2),found=[];let first=-1,last=-1,left=prefix,right=25;
+ const orange=k=>data[k]>data[k+1]*1.3&&data[k]>data[k+2]*1.4&&data[k+1]>=data[k]*.34&&Math.min(data[k],data[k+1],data[k+2])<230;
+ const finish=()=>{
+  const h=last-first+1,w=right-left+1;
+  if(first>=0&&h>=12&&h<=50&&w/h>=1.35&&w/h<=3.3){
+   let mainRight=right,headingTop=first,best=0;
+   for(let y=Math.max(start,first-8);y<Math.min(bottom,last+10);y++){
+    let run=0,gap=0;
+    for(let x=right+4;x<W-25;x++){
+     const k=(y*W+x)*4,lo=Math.min(data[k],data[k+1],data[k+2]),hi=Math.max(data[k],data[k+1],data[k+2]);
+     if(lo<235&&hi-lo<35){run++;gap=0;if(run>best)best=run;if(run>=W*.28){mainRight=Math.max(mainRight,x);headingTop=Math.min(headingTop,y)}}
+     else if(run&&gap<2)gap++;else{run=0;gap=0}
+    }
+   }
+   if(best>=W*.28&&mainRight>=W*.62&&mainRight<=W*(cropped?1:.85))found.push({y:headingTop,end:last+1,left,right,badgeWidth:w,glyphHeight:h,mainRight,kind:'concept',verifiedConcept:true,layoutConcept:true});
+  }first=-1;last=-1;left=prefix;right=25;
+ };
+ for(let y=start;y<bottom;y++){
+  let n=0,l=prefix,r=25;for(let x=25;x<prefix;x++)if(orange((y*W+x)*4)){n++;l=Math.min(l,x);r=Math.max(r,x)}
+  if(n>=3){if(first<0)first=y;last=y;left=Math.min(left,l);right=Math.max(right,r)}else if(first>=0&&y-last>2)finish();
+ }finish();return found;
+}
+function groupConceptHeaders(headers,anchors=[]){
+ const grouped=headers.map(a=>({...a}));
+ for(const anchor of anchors){
+  const prior=grouped.find(a=>Math.abs(a.y-anchor.y)<Math.max(12,anchor.glyphHeight*.6)&&Math.abs(a.left-anchor.left)<15);
+  if(prior)Object.assign(prior,anchor,{number:null,needsReview:false});else grouped.push({...anchor,needsReview:false});
+ }
+ grouped.sort((a,b)=>a.y-b.y);const out=[];let inside=false;
+ for(const a of grouped){
+  if(a.kind==='concept'&&a.verifiedConcept){inside=true;out.push(a);continue}
+  if(inside){
+   const ratio=(a.badgeWidth||0)/(a.glyphHeight||a.height||Math.max(1,a.end-a.y));
+   // Only a separately recognized question number can end a concept. Coloured
+   // tips, examples, bullets and highlighted lines stay inside its body.
+   if(!a.number||!(a.kind==='rep'||a.confidence>=60&&ratio>=2&&ratio<=4.8))continue;
+   inside=false;
+  }out.push(a);
+ }return out;
+}
 async function segment(src,colMode,options={}){
  const scale=Math.min(1,850/src.width),c=canvas(src.width*scale,src.height*scale),g=c.getContext('2d');g.drawImage(src,0,0,c.width,c.height);
  const W=c.width,H=c.height,data=g.getImageData(0,0,W,H).data,mask=new Uint8Array(W*H),xh=new Uint32Array(W),rh=new Uint32Array(W),start=options.cropped?0:22,bottom=options.cropped?H:Math.floor(H*.94);
- for(let y=start;y<bottom;y++)for(let x=24;x<W-24;x++){
+ for(let y=start;y<bottom;y++)for(let x=options.cropped?0:24;x<W-(options.cropped?0:24);x++){
   const k=(y*W+x)*4,r=data[k],v=data[k+1],b=data[k+2];
   if(Math.min(r,v,b)<175||(Math.max(r,v,b)-Math.min(r,v,b)>65&&Math.min(r,v,b)<195)){mask[y*W+x]=1;xh[x]++}
  }
  for(let x=0;x<W;x++)if(xh[x]>H*.55)xh[x]=0
  for(let x=W*.42|0;x<W*.58;x++)for(let y=start;y<bottom;y++){const k=(y*W+x)*4;if(Math.min(data[k],data[k+1],data[k+2])<220)rh[x]++}
- let ranges=[[25,W-25]],best=W>>1,min=Infinity;
+ const conceptAnchors=options.cropped&&!options.concept?[]:conceptTitleBands(data,W,H,start,bottom,!!options.cropped);
+ let ranges=options.cropped?[[0,W]]:[[25,W-25]],best=W>>1,min=Infinity;
  if(colMode!=='1'){
   for(let x=W*.43|0;x<W*.57;x++){let sum=0;for(let z=-6;z<=6;z++)sum+=xh[x+z]||0;if(sum<min){min=sum;best=x}}
   const avg=xh.reduce((a,b)=>a+b,0)/W;let rule=0,rulex=best;
   for(let x=W*.42|0;x<W*.58;x++)if(rh[x]>rule){rule=rh[x];rulex=x}
   if(colMode==='2'||min/13<avg*.25){if(rule>H*.55)best=rulex;ranges=[[25,best-2],[best+2,W-25]]}
  }
+ if(colMode==='auto'&&conceptAnchors.length)ranges=[[25,W-25]];
  const headerCache=new Map();
- if(colMode==='auto'&&ranges.length===1){
+ if(colMode==='auto'&&ranges.length===1&&!conceptAnchors.length){
   const mid=Math.round(W/2),tentative=[[25,mid-9],[mid+9,W-25]],probes=[];
   for(const [a,b] of tentative)probes.push(await colorHeaders(data,W,H,a,b,start,bottom,{source:src}));
   if(probes.every(hs=>hs.some(h=>h.number))){ranges=tentative;for(let i=0;i<ranges.length;i++)headerCache.set(i,probes[i])}
@@ -2224,7 +2269,7 @@ async function segment(src,colMode,options={}){
   let [x0,x1]=ranges[col];
   // Pale yellow, orange and green chapter tabs belong to the outer margin.
   if(col===ranges.length-1){for(let x=Math.max(x0,Math.floor(W*.92));x<x1;x++){let run=0,longest=0;for(let y=start;y<bottom;y++){const k=(y*W+x)*4;run=Math.max(data[k],data[k+1],data[k+2])-Math.min(data[k],data[k+1],data[k+2])>20&&Math.max(data[k],data[k+1],data[k+2])>160&&Math.min(data[k],data[k+1],data[k+2])<235?run+1:0;longest=Math.max(longest,run)}if(longest>H*.10){x1=x-4;break}}}
-  const nativeHeaders=(options.nativeHeaders||[]).map(a=>({...a,left:a.left*scale,y:a.y*scale,end:a.end*scale,height:a.height*scale})),headers=headerCache.get(col)||await colorHeaders(data,W,H,x0,x1,start,bottom,{nativeHeaders,source:src,debug:options.debug});
+  const nativeHeaders=(options.nativeHeaders||[]).map(a=>({...a,left:a.left*scale,y:a.y*scale,end:a.end*scale,height:a.height*scale})),rawHeaders=headerCache.get(col)||await colorHeaders(data,W,H,x0,x1,start,bottom,{nativeHeaders,source:src,debug:options.debug}),headers=groupConceptHeaders(rawHeaders,ranges.length===1?conceptAnchors:[]);
   let [leftBound,rightBound]=removeMarginRules(mask,W,H,x0,x1,start,bottom,headers,data);
   // The number alignment gives the content's left edge; a drifting scan gutter
   // can otherwise survive a straight-column line detector. Keep a small margin.
@@ -2232,6 +2277,8 @@ async function segment(src,colMode,options={}){
   // Include faint continuous box borders in the bounds without changing their pixels.
   for(let y=start;y<bottom;y++){let first=-1;for(let x=leftBound;x<=rightBound;x++){const k=(y*W+x)*4,ink=x<rightBound&&Math.min(data[k],data[k+1],data[k+2])<235;if(ink){if(first<0)first=x}else if(first>=0){if(x-first>=20)for(let z=first;z<x;z++)mask[y*W+z]=1;first=-1}}}
   for(let x=leftBound;x<rightBound;x++){let first=-1;for(let y=start;y<=bottom;y++){const k=(y*W+x)*4,ink=y<bottom&&Math.min(data[k],data[k+1],data[k+2])<235;if(ink){if(first<0)first=y}else if(first>=0){if(y-first>=25)for(let z=first;z<y;z++)mask[z*W+x]=1;first=-1}}}
+  const conceptHeaders=headers.filter(a=>a.kind==='concept'&&a.verifiedConcept),structuralRight=conceptAnchors.length?Math.max(...conceptAnchors.map(a=>a.mainRight))+12:rightBound;
+  const sharedConceptRight=ranges.length===1&&conceptHeaders.length?Math.min(structuralRight,conceptContentRight(data,W,leftBound,rightBound,conceptHeaders[0].y,bottom)):rightBound;
   let bands=[];
   if(headers.length){
    bands=headers.map((a,i)=>({start:Math.max(start,a.y-2),end:i+1<headers.length?headers[i+1].y-(headers[i+1].kind==='boundary'?8:2):bottom,kind:a.kind,header:a}));
@@ -2254,7 +2301,7 @@ async function segment(src,colMode,options={}){
   for(const band of bands){
    if(band.kind==='boundary')continue;
    const contentLeft=!options.cropped&&band.header?.number?Math.max(leftBound,band.header.left-5):leftBound;
-   const contentRight=band.kind==='concept'&&ranges.length===1?conceptContentRight(data,W,leftBound,rightBound,band.start,band.end):rightBound;
+   const contentRight=band.kind==='concept'&&ranges.length===1?sharedConceptRight:rightBound;
    let l=contentRight,r=contentLeft,top=H,bot=-1,ink=0;
    for(let y=band.start;y<band.end;y++)for(let x=contentLeft;x<contentRight;x++)if(mask[y*W+x]){l=Math.min(l,x);r=Math.max(r,x);top=Math.min(top,y);bot=Math.max(bot,y);ink++}
    if(ink<100||r-l<25||bot-top<12)continue;
@@ -2263,7 +2310,7 @@ async function segment(src,colMode,options={}){
    // the top pixels of the next number, even when a rule reaches the separator.
    const left=Math.max(contentLeft,l-5),right=Math.min(contentRight,r+6),a=Math.max(band.start,top-5),b=Math.min(band.end,bot+6);
    const x=Math.max(0,left/scale),y=Math.max(0,a/scale),endX=Math.min(src.width,right/scale),endY=Math.min(src.height,b/scale);
-   result.push({kind:band.kind,number:band.header?.number||null,needsReview:!!band.header?.needsReview,verifiedConcept:!!band.header?.verifiedConcept,col,top,newGroup:band.kind==='rep',referenceWidth:(ranges.length===2?(W-68)/2:contentRight-leftBound)/scale,rect:{x,y,w:endX-x,h:endY-y}});
+   result.push({kind:band.kind,conceptCode:band.header?.conceptCode||null,number:band.header?.number||null,needsReview:!!band.header?.needsReview,verifiedConcept:!!band.header?.verifiedConcept,col,top,newGroup:band.kind==='rep',referenceWidth:(ranges.length===2?(W-68)/2:contentRight-leftBound)/scale,rect:{x,y,w:endX-x,h:endY-y}});
   }
  }
  releaseCanvas(c);return result;
