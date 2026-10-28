@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>과외 수업교재 제작 도구 · v5</title>
+<title>과외 수업교재 제작 도구 · v5.1</title>
 <style>html,body{margin:0;padding:0;background:#f1f5fb}button,input,select{font:inherit}</style>
 </head>
 <body>
@@ -129,7 +129,7 @@
 #folio-popout-root .settings{flex-wrap:wrap}
 #folio-popout-root .sheet canvas{image-rendering:auto}
 </style>
-<header><div class="brand"><i class="mark">f</i>folio<span>수업교재 스튜디오 · v5</span></div><div class="actions"><button class="small" id="popoutBtn">브라우저 새 탭 ↗</button><button class="quiet small" id="helpBtn">사용 안내</button><button class="small" id="saveBtn">작업 저장</button><button class="small" id="openBtn">불러오기</button><button class="primary" id="pdfBtn">PDF 내려받기 ↗</button></div></header>
+<header><div class="brand"><i class="mark">f</i>folio<span>수업교재 스튜디오 · v5.1</span></div><div class="actions"><button class="small" id="popoutBtn">브라우저 새 탭 ↗</button><button class="quiet small" id="helpBtn">사용 안내</button><button class="small" id="saveBtn">작업 저장</button><button class="small" id="openBtn">불러오기</button><button class="primary" id="pdfBtn">PDF 내려받기 ↗</button></div></header>
 <div class="launch-card"><div><strong>브라우저에서 크게 편집하기</strong><p class="muted">현재 작업을 새 탭에서 이어서 열 수 있어요.</p><details id="browserHelp"><summary>Chrome · Edge에서 여는 방법</summary><p id="browserHint">아래 ‘앱 HTML 저장’을 누르고, 내려받은 HTML 파일을 마우스 오른쪽 버튼 → ‘연결 프로그램’ → Chrome 또는 Edge로 여세요. 새 탭이 차단된 경우에도 이 방법으로 열 수 있어요.</p></details></div><div class="actions"><button id="launchBtn" class="primary">새 탭으로 열기 ↗</button><button id="downloadAppBtn">앱 HTML 저장</button></div></div>
 <div class="intro"><div><div class="eyebrow">LESSON MATERIALS</div><h1>다음 수업을, 한 권으로.</h1><p class="muted">20쪽 이상 한 번에 추출하고, 최대 4문제씩 여유 있게 배치하세요.</p></div><span class="pill" id="modePill">쎈 미적분Ⅰ · 추출 예시</span></div>
 <div class="layout">
@@ -2024,12 +2024,17 @@ class PDFSource{
 async function ocrEngine(){
  if(!ocrEnginePromise)ocrEnginePromise=(async()=>{
   if(!globalThis.Tesseract)await new Promise(async(resolve,reject)=>{try{const script=document.createElement('script');script.src=await vendorURL('ocrMain');script.onload=resolve;script.onerror=()=>reject(Error('번호 인식기를 시작하지 못했어요.'));document.head.append(script)}catch(e){reject(e)}});
-  const core=await vendorURL('ocrCore'),workerCode=new TextDecoder().decode(await vendorBytes('ocrWorker'));
+  const [coreBytes,workerBytes]=await Promise.all([vendorBytes('ocrCore'),vendorBytes('ocrWorker')]),decoder=new TextDecoder();
   const prelude=`const nativeFetch=self.fetch.bind(self);self.fetch=async function(url,options){if(String(url)==='folio-data:languages/eng.traineddata.gz'){const b=Uint8Array.from(atob(${JSON.stringify(FOLIO_VENDOR.ocrEnglish)}),c=>c.charCodeAt(0));return new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip')))}return nativeFetch(url,options)};\n`;
-  const worker=URL.createObjectURL(new Blob([prelude,workerCode],{type:'text/javascript'}));
-  const instance=await Tesseract.createWorker('eng',1,{workerPath:worker,corePath:core+'#.js',langPath:'folio-data:languages',workerBlobURL:false,cacheMethod:'none'});
-  await instance.setParameters({tessedit_char_whitelist:'0123456789-',tessedit_pageseg_mode:'6',preserve_interword_spaces:'1'});return instance;
- })();return ocrEnginePromise;
+  // Define TesseractCore in the worker itself. Local-file/opaque origins must
+  // never need importScripts() to fetch a second blob URL (especially #.js).
+  const worker=URL.createObjectURL(new Blob([prelude,decoder.decode(coreBytes),'\n;\n',decoder.decode(workerBytes)],{type:'text/javascript'}));
+  let instance;
+  try{
+   instance=await Tesseract.createWorker('eng',1,{workerPath:worker,langPath:'folio-data:languages',workerBlobURL:false,cacheMethod:'none'});
+   await instance.setParameters({tessedit_char_whitelist:'0123456789-',tessedit_pageseg_mode:'6',preserve_interword_spaces:'1'});return instance;
+  }catch(error){await instance?.terminate();throw error}finally{URL.revokeObjectURL(worker)}
+ })().catch(error=>{ocrEnginePromise=null;throw error});return ocrEnginePromise;
 }
 async function recognizeNumberTiles(tiles){
  if(!tiles.length)return[];const worker=await ocrEngine(),sheet=canvas(320,tiles.length*80),g=sheet.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,sheet.width,sheet.height);
