@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>과외 수업교재 제작 도구 · v5.3</title>
+<title>과외 수업교재 제작 도구 · v5.4</title>
 <style>html,body{margin:0;padding:0;background:#f1f5fb}button,input,select{font:inherit}</style>
 </head>
 <body>
@@ -129,12 +129,12 @@
 #folio-popout-root .settings{flex-wrap:wrap}
 #folio-popout-root .sheet canvas{image-rendering:auto}
 </style>
-<header><div class="brand"><i class="mark">f</i>folio<span>수업교재 스튜디오 · v5.3</span></div><div class="actions"><button class="small" id="popoutBtn">브라우저 새 탭 ↗</button><button class="quiet small" id="helpBtn">사용 안내</button><button class="small" id="saveBtn">작업 저장</button><button class="small" id="openBtn">불러오기</button><button class="primary" id="pdfBtn">PDF 내려받기 ↗</button></div></header>
+<header><div class="brand"><i class="mark">f</i>folio<span>수업교재 스튜디오 · v5.4</span></div><div class="actions"><button class="small" id="popoutBtn">브라우저 새 탭 ↗</button><button class="quiet small" id="helpBtn">사용 안내</button><button class="small" id="saveBtn">작업 저장</button><button class="small" id="openBtn">불러오기</button><button class="primary" id="pdfBtn">PDF 내려받기 ↗</button></div></header>
 <div class="launch-card"><div><strong>브라우저에서 크게 편집하기</strong><p class="muted">현재 작업을 새 탭에서 이어서 열 수 있어요.</p><details id="browserHelp"><summary>Chrome · Edge에서 여는 방법</summary><p id="browserHint">아래 ‘앱 HTML 저장’을 누르고, 내려받은 HTML 파일을 마우스 오른쪽 버튼 → ‘연결 프로그램’ → Chrome 또는 Edge로 여세요. 새 탭이 차단된 경우에도 이 방법으로 열 수 있어요.</p></details></div><div class="actions"><button id="launchBtn" class="primary">새 탭으로 열기 ↗</button><button id="downloadAppBtn">앱 HTML 저장</button></div></div>
 <div class="intro"><div><div class="eyebrow">LESSON MATERIALS</div><h1>다음 수업을, 한 권으로.</h1><p class="muted">20쪽 이상 한 번에 추출하고, 최대 4문제씩 여유 있게 배치하세요.</p></div><span class="pill" id="modePill">쎈 미적분Ⅰ · 추출 예시</span></div>
 <div class="layout">
-<aside class="panel sidebar"><div class="section-label"><b>01</b> 원본 교재</div><button class="upload" id="uploadBtn"><strong>＋ 원본 PDF 또는 페이지 이미지 선택</strong><span>PDF · JPG · PNG · 여러 이미지 가능</span></button><input class="hidden" type="file" id="fileInput" accept="application/pdf,image/png,image/jpeg,image/webp" multiple><input class="hidden" type="file" id="projectInput" accept="application/json,.json"><div class="file-name" id="fileLabel">쎈 미적분Ⅰ에서 준비한 예시가 열려 있어요.</div><div class="row"><div style="flex:1"><label class="field" for="rangeInput">PDF 페이지 범위</label><input id="rangeInput" class="full" value="1-20" placeholder="예: 1-20, 25-30"></div><div style="width:86px"><label class="field" for="columnInput">원본 구성</label><select id="columnInput" class="full"><option value="auto">자동</option><option value="1">1단</option><option value="2">2단</option></select></div></div><button class="primary full" id="analyzeBtn" style="margin-top:12px">자동 추출하기</button><p class="note">PDF·이미지 지원. 원본을 선택한 뒤 범위를 분석하세요. 20쪽 이상 순차 처리 · 1회 페이지 수 제한 없음. 문제 번호로 자동 분리합니다. 분리 결과와 구분을 확인하세요.</p><div class="rule"></div>
-<div class="section-label"><b>02</b> 교재에 넣을 조각 <span id="blockCount" class="count"></span></div><div class="row"><button id="pairBtn" class="small" style="flex:1">유형별 대표 1 + 적용 1</button><button id="allBtn" class="small">전체</button><button id="noneBtn" class="small">해제</button></div><label class="checklabel" style="margin-top:10px"><input type="checkbox" id="conceptCheck" checked>개념 포함</label><label class="checklabel" style="margin-top:8px"><input type="checkbox" id="paperCleanupCheck" checked>문제 배경 정리</label><p class="note">흰 종이의 옅은 잡티를 줄이고 글자·그림·보기 테두리를 보호합니다. 해제하면 원본으로 보며 PDF에도 같은 설정을 적용합니다.</p><div id="blockList" class="block-list"></div><div class="rule"></div><button id="seedBtn" class="small full">쎈 예시로 돌아가기</button><p class="note">예시는 원본 PDF 1·5·6쪽에서 준비한 개념 2개와 문제 4개예요. 원본 배율을 유지하고 회색 잡티를 정리합니다. PDF는 300 DPI 무손실로 출력해요.</p>
+<aside class="panel sidebar"><div class="section-label"><b>01</b> 원본 교재</div><button class="upload" id="uploadBtn"><strong>＋ 원본 PDF 또는 페이지 이미지 선택</strong><span>PDF · JPG · PNG · 여러 이미지 가능</span></button><input class="hidden" type="file" id="fileInput" accept="application/pdf,image/png,image/jpeg,image/webp" multiple><input class="hidden" type="file" id="projectInput" accept="application/json,.json"><div class="file-name" id="fileLabel">쎈 미적분Ⅰ에서 준비한 예시가 열려 있어요.</div><div class="row"><div style="flex:1"><label class="field" for="rangeInput">PDF 페이지 범위</label><input id="rangeInput" class="full" value="1-20" placeholder="예: 1-20, 25-30"></div><div style="width:86px"><label class="field" for="columnInput">원본 구성</label><select id="columnInput" class="full"><option value="auto">자동</option><option value="1">1단</option><option value="2">2단</option></select></div></div><label class="field" for="bookInput" style="margin-top:10px">교재</label><select id="bookInput" class="full"><option value="auto">자동 감지</option><option value="ssen">쎈</option><option value="rpm">RPM · 문제만</option></select><button class="primary full" id="analyzeBtn" style="margin-top:12px">자동 추출하기</button><p class="note">PDF·이미지 지원. 원본을 선택한 뒤 범위를 분석하세요. 20쪽 이상 순차 처리 · 1회 페이지 수 제한 없음. 문제 번호로 자동 분리합니다. 분리 결과와 구분을 확인하세요.</p><div class="rule"></div>
+<div class="section-label"><b>02</b> 교재에 넣을 조각 <span id="blockCount" class="count"></span></div><label class="field" for="numberInput">문제 번호로 선택</label><input id="numberInput" class="full" maxlength="10000" placeholder="예: 18, 22-25, 57" aria-describedby="numberSelectionStatus"><button id="selectNumbersBtn" class="small full" style="margin-top:6px">입력한 번호만 선택</button><p class="note" id="numberSelectionStatus" role="status">번호를 미리 입력하면 자동 추출할 때도 적용해요. 개념 선택은 유지합니다.</p><label class="checklabel" style="margin-bottom:10px"><input type="checkbox" id="selectedOnlyCheck">선택한 조각만 보기</label><div class="row"><button id="pairBtn" class="small" style="flex:1">유형별 대표 1 + 적용 1</button><button id="allBtn" class="small">전체</button><button id="noneBtn" class="small">해제</button></div><label class="checklabel" style="margin-top:10px"><input type="checkbox" id="conceptCheck" checked>개념 포함</label><label class="checklabel" style="margin-top:8px"><input type="checkbox" id="paperCleanupCheck" checked>문제 배경 정리</label><p class="note">흰 종이의 옅은 잡티를 줄이고 글자·그림·보기 테두리를 보호합니다. 해제하면 원본으로 보며 PDF에도 같은 설정을 적용합니다.</p><div id="blockList" class="block-list"></div><div class="rule"></div><button id="seedBtn" class="small full">쎈 예시로 돌아가기</button><p class="note">예시는 원본 PDF 1·5·6쪽에서 준비한 개념 2개와 문제 4개예요. 원본 배율을 유지하고 회색 잡티를 정리합니다. PDF는 300 DPI 무손실로 출력해요.</p>
 </aside>
 <main class="panel workspace"><div class="worktop"><input class="titleinput" id="titleInput" aria-label="교재 제목" value="함수의 극한 · 개념과 유형"><div class="toolbar"><div class="tabs"><button id="previewTab" class="active">교재 미리보기</button><button id="sourceTab">원본 · 자르기</button></div><div class="settings"><select id="zoomInput" aria-label="미리보기 확대"><option value="0">화면 맞춤</option><option value="100">100% 보기</option><option value="150">150% 보기</option><option value="200">200% 보기</option></select><span class="pill">2×2 · 최대 4문제</span><select id="spaceInput" aria-label="풀이 공간"><option value="100">풀이 공간 작게</option><option value="165" selected>풀이 공간 보통</option><option value="245">풀이 공간 넉넉히</option></select><select id="themeInput" aria-label="교재 색상"><option value="navy" selected>블루</option><option value="mono">흑백</option></select><button class="small" id="printBtn">인쇄</button></div></div></div>
 <div id="editor" class="editor hidden"><div class="editor-fields"><label>조각 구분<select id="kindInput"><option value="concept">개념</option><option value="rep">대표문제</option><option value="apply">적용문제</option></select></label><label>유형 번호<input id="groupInput" type="number" min="0" max="99"></label><label>표시 이름<input id="labelInput" placeholder="문제번호 또는 소제목"></label></div><div class="cropbar"><button class="small" id="applyCropBtn">드래그 영역으로 수정</button><button class="small" id="addCropBtn">드래그 영역 추가</button><button class="small" id="resetCropBtn">자르기 되돌리기</button><button class="small" id="removeBtn" style="margin-left:auto">조각 삭제</button></div><p class="note" id="cropHint"></p></div>
@@ -1802,7 +1802,7 @@ function cleanCanvas(src){
 }
 let auditPromise;
 async function auditBlock(b){
- if(b.audited&&(!b.sourceNumbers||b.sourceNumbers.length<=1))return[b];
+ if((b.audited||b.book==='rpm')&&(!b.sourceNumbers||b.sourceNumbers.length<=1))return[b];
  const image=await imageFromBlob(b.asset),parts=await segment(image,'1',{cropped:true,concept:b.kind==='concept'}),numbered=parts.filter(a=>a.number);
  const use=numbered.length?parts.filter(a=>a.number||a.verifiedConcept):parts.length>1?parts:[];
  if(use.length>1){
@@ -1833,11 +1833,14 @@ async function freezeBlock(b,src,referenceWidth){
  const r=b.rect||{x:0,y:0,w:src.width,h:src.height},x=Math.max(0,Math.floor(r.x)),y=Math.max(0,Math.floor(r.y));
  const w=Math.min(src.width-x,Math.ceil(r.x+r.w)-x),h=Math.min(src.height-y,Math.ceil(r.y+r.h)-y);
  if(w<1||h<1)throw Error('자르기 영역이 원본 범위를 벗어났어요.');
- const c=canvas(w,h),g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,w,h);g.drawImage(src,x,y,w,h,0,0,w,h);
- b.width=w;b.height=h;b.bodyHeight=bodyHeight(c);b.referenceInferred=!referenceWidth&&!b.referenceWidth;
+ const shared=b.sharedRect,sw=shared?Math.ceil(shared.x+shared.w)-Math.floor(shared.x):0,sh=shared?Math.ceil(shared.y+shared.h)-Math.floor(shared.y):0,gap=shared?Math.max(4,Math.round(src.width/425)):0;
+ const width=Math.max(w,sw),height=h+sh+gap,c=canvas(width,height),g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,width,height);
+ if(shared)g.drawImage(src,Math.floor(shared.x),Math.floor(shared.y),sw,sh,0,0,sw,sh);
+ g.drawImage(src,x,y,w,h,0,sh+gap,w,h);
+ b.width=width;b.height=height;b.bodyHeight=bodyHeight(c);b.referenceInferred=!referenceWidth&&!b.referenceWidth;
  b.referenceWidth=referenceWidth||b.referenceWidth||Math.max(w,(b.bodyHeight||w/30)*340/11.5);
  b.asset=await canvasBlob(c);b.cleanedAsset=null;b.audited=false;
- const thumb=canvas(84,76),tg=thumb.getContext('2d'),s=Math.min(84/w,76/h);tg.fillStyle='#fff';tg.fillRect(0,0,84,76);tg.drawImage(c,0,0,w*s,h*s);b.thumbnail=thumb.toDataURL('image/png');
+ const thumb=canvas(84,76),tg=thumb.getContext('2d'),s=Math.min(84/width,76/height);tg.fillStyle='#fff';tg.fillRect(0,0,84,76);tg.drawImage(c,0,0,width*s,height*s);b.thumbnail=thumb.toDataURL('image/png');
  releaseCanvas(c);releaseCanvas(thumb);clearBitmaps();return b;
 }
 function normalizeUnknownScales(blocks){
@@ -1861,10 +1864,32 @@ async function cropCanvas(b,clean=false){
  while(bitmaps.size&&bitmapPixels+pixels>BITMAP_PIXEL_LIMIT){const [old,entry]=bitmaps.entries().next().value;entry.image.close?.();bitmapPixels-=entry.pixels;bitmaps.delete(old)}
  bitmaps.set(key,{image,pixels});bitmapPixels+=pixels;return image;
 }
+function parseQuestionNumbers(value){
+ const text=String(value).trim().replace(/[–—~～〜]/g,'-').replace(/번/g,'').replace(/\s*-\s*/g,'-');
+ if(!text)return[];
+ const intervals=text.split(/[\s,，、]+/).filter(Boolean).map(token=>{
+  const m=token.match(/^(\d{1,6})(?:-(\d{1,6}))?$/),a=m?+m[1]:0,b=m?+(m[2]||m[1]):0;
+  if(!m||a<1||b<a)throw Error('문제 번호는 18, 22-25, 57처럼 입력하세요.');return[a,b];
+ }).sort((a,b)=>a[0]-b[0]);
+ const merged=[];for(const row of intervals){const last=merged[merged.length-1];if(last&&row[0]<=last[1]+1)last[1]=Math.max(last[1],row[1]);else merged.push(row.slice())}return merged;
+}
+function selectQuestionNumbers(blocks,intervals){
+ const matches=n=>intervals.some(([a,b])=>n>=a&&n<=b),found=new Set();let count=0;
+ for(const b of blocks){if(b.kind==='concept')continue;const text=b.number||(/^\d+$/.test(b.label)?b.label:''),n=+text;b.selected=!!n&&matches(n);if(b.selected){count++;found.add(n)}}
+ const missing=[];for(const [a,b]of intervals){let next=a;for(const n of [...found].filter(n=>n>=a&&n<=b).sort((a,b)=>a-b)){if(n>next)missing.push([next,n-1]);next=n+1}if(next<=b)missing.push([next,b])}
+ return{count,missing};
+}
+function numberSelectionMessage(result){return`문제 ${result.count}개 선택`+(result.missing.length?' · 분석한 페이지에서 찾지 못한 번호: '+result.missing.slice(0,8).map(([a,b])=>a===b?a:`${a}-${b}`).join(', ')+(result.missing.length>8?' …':''):'')}
+function selectNumbers(){
+ if(state.busy)return;
+ try{const intervals=parseQuestionNumbers($('numberInput').value);if(!intervals.length)throw Error('선택할 문제 번호를 입력하세요.');const result=selectQuestionNumbers(state.blocks,intervals);$('selectedOnlyCheck').checked=true;$('numberSelectionStatus').textContent=numberSelectionMessage(result);renderList();schedule()}
+ catch(e){$('numberSelectionStatus').textContent=e.message}
+}
+
 function renderList(){
  const root=$('blockList');root.replaceChildren();for(const u of listURLs)URL.revokeObjectURL(u);listURLs=[];
  $('blockCount').textContent=chosen().length+'/'+state.blocks.length;
- for(const b of state.blocks){
+ for(const b of state.blocks.filter(b=>!$('selectedOnlyCheck').checked||b.selected)){
   const card=document.createElement('div');card.className='block-card'+(b.id===state.active?' active':'')+(!b.selected?' unselected':'');card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','편집: '+b.label);
   const check=document.createElement('input');check.type='checkbox';check.checked=b.selected;check.setAttribute('aria-label',b.label+' 포함');check.onclick=e=>e.stopPropagation();check.onchange=()=>{b.selected=check.checked;renderList();schedule()};
   const info=document.createElement('div');info.className='block-info';const title=document.createElement('div');title.className='block-title';title.textContent=b.label||'이름 없는 조각';
@@ -1872,9 +1897,9 @@ function renderList(){
   meta.append(tag,document.createTextNode((b.kind==='concept'?'':`유형 ${String(b.group).padStart(2,'0')} · `)+`PDF ${b.page}쪽`+(b.needsReview?' · 번호 확인 필요':'')));info.append(title,meta);
   const thumb=document.createElement('img');thumb.className='thumb';thumb.alt='';thumb.src=b.thumbnail||'';card.append(check,info,thumb);card.onclick=()=>activate(b.id);card.onkeydown=e=>{if(e.target===card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();activate(b.id)}};root.append(card);
  }
- root.classList.toggle('muted',!state.blocks.length);if(!state.blocks.length)root.textContent='원본을 분석하면 추출 후보가 표시돼요.';
+ root.classList.toggle('muted',!state.blocks.length);if(!root.children.length)root.textContent=state.blocks.length?'선택한 조각이 없어요. 번호를 입력하거나 ‘선택한 조각만 보기’를 해제하세요.':'원본을 분석하면 추출 후보가 표시돼요.';
 }
-function selectedSettings(){return{title:$('titleInput').value,columns:2,space:+$('spaceInput').value,theme:$('themeInput').value,concept:$('conceptCheck').checked,clean:$('paperCleanupCheck').checked,paperCleanup:$('paperCleanupCheck').checked}}
+function selectedSettings(){return{title:$('titleInput').value,columns:2,space:+$('spaceInput').value,theme:$('themeInput').value,concept:$('conceptCheck').checked,book:$('bookInput').value,numbers:$('numberInput').value,selectedOnly:$('selectedOnlyCheck').checked,clean:$('paperCleanupCheck').checked,paperCleanup:$('paperCleanupCheck').checked}}
 const PAPER={W:794,H:1123,M:45,gap:24,top:105,bottom:1075,rowGap:24,CW:340};
 function makePlans(bs,settings){
  const {top,bottom,rowGap,CW}=PAPER,cellHeight=(bottom-top-rowGap)/2,fullWidth=CW*2+PAPER.gap,plans=[];let plan;
@@ -1911,7 +1936,7 @@ async function drawPage(plan,S=1.25,pageNumber=1){
  if(dividerY<bottom){g.moveTo(W/2,dividerY);g.lineTo(W/2,bottom)}g.stroke();
  for(const item of plan.items){
   const {b,x,y,width,imageHeight,height}=item,boxWidth=item.boxWidth||CW,img=await cropCanvas(b,plan.settings.clean);
-  g.fillStyle=tint;g.fillRect(x,y,boxWidth,22);g.fillStyle=ink;g.font='600 9px system-ui';g.fillText(b.kind==='concept'?'CONCEPT · 개념':`TYPE ${String(b.group).padStart(2,'0')} · ${b.kind==='rep'?'대표문제':'적용문제'}`,x+8,y+14);
+  g.fillStyle=tint;g.fillRect(x,y,boxWidth,22);g.fillStyle=ink;g.font='600 9px system-ui';g.fillText(b.kind==='concept'?'CONCEPT · 개념':b.book==='rpm'?'RPM · '+(b.kind==='rep'?'대표문제':'문제'):`TYPE ${String(b.group).padStart(2,'0')} · ${b.kind==='rep'?'대표문제':'적용문제'}`,x+8,y+14);
   let label=printableLabel(b.label);g.font='8px system-ui';while(g.measureText(label).width>120&&label.length)label=label.slice(0,-2)+'…';g.textAlign='right';g.fillText(label,x+boxWidth-8,y+14);g.textAlign='left';
   // Align the raster to output pixels, avoiding a second blur from subpixel placement.
   const imageX=Math.round(x*S),imageY=Math.round((y+29)*S),imageW=Math.max(1,Math.round(width*S)),imageH=Math.max(1,Math.round(imageHeight*S));
@@ -1963,7 +1988,7 @@ async function renderOutput(){
 
 async function loadSeed(){
  if(state.busy)return;setBusy(true);
- try{state.seed=true;state.active=null;state.blocks=[];state.crop=null;clearBitmaps();for(const a of seedData){const c=await decodeSeed(a),b=newBlock({kind:a.kind,group:a.group,page:a.page,label:a.number});await freezeBlock(b,c);releaseCanvas(c);b.audited=true;b.number=/^\d{4}$/.test(b.label)?b.label:null;b.sourceNumbers=b.number?[b.number]:[];b.verifiedConcept=b.kind==='concept';state.blocks.push(b)}normalizeUnknownScales(state.blocks);
+ try{$('numberInput').value='';$('selectedOnlyCheck').checked=false;$('numberSelectionStatus').textContent='번호를 미리 입력하면 자동 추출할 때도 적용해요. 개념 선택은 유지합니다.';state.seed=true;state.active=null;state.blocks=[];state.crop=null;clearBitmaps();for(const a of seedData){const c=await decodeSeed(a),b=newBlock({kind:a.kind,group:a.group,page:a.page,label:a.number});await freezeBlock(b,c);releaseCanvas(c);b.audited=true;b.number=/^\d{4}$/.test(b.label)?b.label:null;b.sourceNumbers=b.number?[b.number]:[];b.verifiedConcept=b.kind==='concept';state.blocks.push(b)}normalizeUnknownScales(state.blocks);
  $('modePill').textContent='쎈 미적분Ⅰ · 추출 예시';$('fileLabel').textContent=state.pdf?'원본 PDF 연결됨 · 예시를 보고 있어요.':'쎈 미적분Ⅰ · PDF 1·5·6쪽에서 준비한 예시';tell('파란색 2×2 교재입니다. 원본 열 너비를 유지해 짧은 문제도 과도하게 확대하지 않아요.');renderList();renderEditor();await renderOutput();setTab('preview');
  }finally{setBusy(false)}
 }
@@ -1983,26 +2008,28 @@ async function importFiles(files){
   else{images=fs.filter(f=>/^image\//.test(f.type));if(!images.length)throw Error('PDF 또는 JPG/PNG 이미지를 선택하세요.')}
   sourceToken++;if(state.pdf&&state.pdf!==nextPDF)await state.pdf.destroy();state.cache.clear();state.pdf=nextPDF;state.images=images;state.sourcePage=1;state.crop=null;state.seed=false;
   const total=nextPDF?nextPDF.pages.length:images.length;$('rangeInput').value=total===1?'1':`1-${Math.min(20,total)}`;$('fileLabel').textContent=pdf?`${pdf.name} · ${total}쪽`:`페이지 이미지 ${total}개`;$('modePill').textContent='원본 연결됨 · 분석 준비';
-  tell('원본이 연결됐어요. 20쪽 이상도 한 번에 순차 분석할 수 있어요. 추출에 성공하면 기존 조각을 교체합니다.');await pageCanvas(1);if(state.tab==='source')await renderSource();
+  tell('원본이 연결됐어요. 20쪽 이상도 한 번에 순차 분석할 수 있어요. 추출에 성공하면 기존 조각을 교체합니다.');if(nextPDF&&$('titleInput').value==='함수의 극한 · 개념과 유형'&&await nextPDF.bookProfile()==='rpm')$('titleInput').value='RPM · 문제 모음';await pageCanvas(1);if(state.tab==='source')await renderSource();
  }catch(e){tell(e.message||String(e),true)}finally{setBusy(false);$('fileInput').value=''}
 }
 function setBusy(b){
- state.busy=b;if(b)previewObserver?.disconnect();for(const id of ['analyzeBtn','uploadBtn','seedBtn','pdfBtn','printBtn','openBtn','saveBtn','pairBtn','allBtn','noneBtn','popoutBtn','launchBtn','downloadAppBtn','applyCropBtn','addCropBtn','resetCropBtn','removeBtn','prevPageBtn','nextPageBtn','sourcePageInput','spaceInput','themeInput','titleInput','rangeInput','conceptCheck','paperCleanupCheck','previewTab','sourceTab','kindInput','groupInput','labelInput','columnInput'])$(id).disabled=b;
+ state.busy=b;if(b)previewObserver?.disconnect();for(const id of ['analyzeBtn','uploadBtn','seedBtn','pdfBtn','printBtn','openBtn','saveBtn','pairBtn','allBtn','noneBtn','popoutBtn','launchBtn','downloadAppBtn','applyCropBtn','addCropBtn','resetCropBtn','removeBtn','prevPageBtn','nextPageBtn','sourcePageInput','spaceInput','themeInput','titleInput','rangeInput','bookInput','numberInput','selectNumbersBtn','selectedOnlyCheck','conceptCheck','paperCleanupCheck','previewTab','sourceTab','kindInput','groupInput','labelInput','columnInput'])$(id).disabled=b;
  for(const input of $('blockList').querySelectorAll('input'))input.disabled=b;
  $('analyzeBtn').textContent=b?'처리 중…':'자동 추출하기';if(!b){$('pdfBtn').disabled=!state.plans?.length;$('printBtn').disabled=!state.plans?.length;renderEditor();for(const c of state.pages)previewObserver?.observe(c)}
 }
 async function analyze(){
  if(state.busy)return;if(!state.pdf&&!state.images.length){toast('먼저 원본 PDF 또는 이미지를 선택해 주세요.');$('fileInput').click();return}
  setBusy(true);const previous={blocks:state.blocks,active:state.active};
- try{const total=state.pdf?state.pdf.pages.length:state.images.length,ps=parseRange($('rangeInput').value,total),out=[];let group=0,inGroup=0,problemCount=0;
+ try{const numberIntervals=parseQuestionNumbers($('numberInput').value);const total=state.pdf?state.pdf.pages.length:state.images.length,ps=parseRange($('rangeInput').value,total),out=[],book=$('bookInput').value==='auto'?(state.pdf?await state.pdf.bookProfile():'ssen'):$('bookInput').value;
+  if(book==='rpm'&&!state.pdf)throw Error('RPM 자동 추출은 글자 정보가 있는 PDF를 선택해 주세요. 페이지 이미지는 원본 화면에서 직접 자를 수 있어요.');let group=0,inGroup=0,problemCount=0;
   for(let i=0;i<ps.length;i++){
-   const p=ps[i];tell(`${p}쪽을 자동 분리하고 있어요… (${i+1}/${ps.length})`);await nextFrame();const c=await pageCanvas(p),nativeHeaders=state.pdf?await state.pdf.numberHeaders(p-1):[],segments=await segment(c,$('columnInput').value,{nativeHeaders});
-   for(const a of segments){let kind=a.kind;if(kind!=='concept'){if(kind==='rep'||!group){group++;inGroup=0}kind=inGroup++===0?'rep':'apply';problemCount++}
-    const b=newBlock({kind,group:kind==='concept'?0:group,page:p,number:a.number,sourceNumbers:a.number?[a.number]:[],verifiedConcept:a.verifiedConcept,needsReview:a.needsReview,label:a.number|| (kind==='concept'?`개념 후보 · PDF ${p}`:`문제 후보 ${problemCount}`),rect:a.rect,original:{...a.rect}});await freezeBlock(b,c,a.referenceWidth);b.originalReferenceWidth=b.referenceWidth;b.audited=true;out.push(b);
+   const p=ps[i];tell(`${p}쪽을 자동 분리하고 있어요… (${i+1}/${ps.length})`);await nextFrame();const c=await pageCanvas(p),nativeHeaders=state.pdf?await state.pdf.numberHeaders(p-1):[],nativeItems=book==='rpm'?await state.pdf.pageItems(p-1):[],segments=await segment(c,$('columnInput').value,{nativeHeaders,nativeItems,book});
+   for(const a of segments){let kind=a.kind;if(kind!=='concept'){if(kind==='rep'||!group){group++;inGroup=0}if(book!=='rpm')kind=inGroup++===0?'rep':'apply';problemCount++}
+    const b=newBlock({kind,group:kind==='concept'?0:group,page:p,number:a.number,sourceNumbers:a.number?[a.number]:[],verifiedConcept:a.verifiedConcept,needsReview:a.needsReview,label:a.number|| (kind==='concept'?`개념 후보 · PDF ${p}`:`문제 후보 ${problemCount}`),rect:a.rect,sharedRect:a.sharedRect,originalSharedRect:a.sharedRect?{...a.sharedRect}:null,book:a.book,original:{...a.rect}});await freezeBlock(b,c,a.referenceWidth);b.originalReferenceWidth=b.referenceWidth;b.audited=true;out.push(b);
    }await nextFrame();
   }
-  if(!out.length)throw Error('자동으로 나눌 영역을 찾지 못했어요. 원본 단 수를 확인하거나 원본 화면에서 영역을 직접 추가하세요.');
-  clearBitmaps();state.blocks=out;state.active=out[0].id;state.crop=null;state.seed=false;renderList();renderEditor();await renderOutput();setTab('preview');$('modePill').textContent='자동 추출 후보 · 확인 필요';tell(`${ps.length}쪽에서 개념 ${out.filter(b=>b.kind==='concept').length}개와 문제 ${out.filter(b=>b.kind!=='concept').length}개를 찾았어요. 개념은 본문을 묶고 문제는 번호별로 나눴어요.`);
+  if(!out.length)throw Error(book==='rpm'?'RPM 문제 번호를 찾지 못했어요. 문제 페이지인지, 글자를 선택할 수 있는 PDF인지 확인해 주세요.':'자동으로 나눌 영역을 찾지 못했어요. 원본 단 수를 확인하거나 원본 화면에서 영역을 직접 추가하세요.');
+  if(numberIntervals.length){const result=selectQuestionNumbers(out,numberIntervals);$('numberSelectionStatus').textContent=numberSelectionMessage(result);$('selectedOnlyCheck').checked=true}
+  clearBitmaps();state.blocks=out;state.active=(out.find(b=>b.selected)||out[0]).id;state.crop=null;state.seed=false;renderList();renderEditor();await renderOutput();setTab('preview');$('modePill').textContent=book==='rpm'?'RPM · 문제만 추출':'자동 추출 후보 · 확인 필요';tell(`${ps.length}쪽에서 개념 ${out.filter(b=>b.kind==='concept').length}개와 문제 ${out.filter(b=>b.kind!=='concept').length}개를 찾았어요. 개념은 본문을 묶고 문제는 번호별로 나눴어요.`);
  }catch(e){clearBitmaps();state.blocks=previous.blocks;state.active=previous.active;tell(e.message||String(e),true)}finally{setBusy(false)}
 }
 async function renderSource(forcePage){
@@ -2013,13 +2040,13 @@ async function applyCrop(add){
  if(!state.crop||state.busy)return;const r={...state.crop},b=getBlock();if(!add&&!b)return;setBusy(true);
  try{const src=await pageCanvas(state.sourcePage),ref=state.blocks.find(x=>x.page===state.sourcePage&&x.referenceWidth)?.referenceWidth||($('columnInput').value==='1'?src.width*.9:src.width*.44);
   const target=add?newBlock({page:state.sourcePage,rect:r,original:{...r},kind:$('kindInput').value,group:+$('groupInput').value||1,label:$('labelInput').value||'직접 추가한 조각'}):{...b,page:state.sourcePage,rect:r,original:b.original||{...r}};
-  await freezeBlock(target,src,ref);if(add){state.blocks.push(target);state.active=target.id}else Object.assign(b,target);state.crop=null;renderList();renderEditor();await renderOutput();toast(add?'새 조각을 추가했어요.':'자르기 범위를 수정했어요.');
+  target.sharedRect=null;await freezeBlock(target,src,ref);if(add){state.blocks.push(target);state.active=target.id}else Object.assign(b,target);state.crop=null;renderList();renderEditor();await renderOutput();toast(add?'새 조각을 추가했어요.':'자르기 범위를 수정했어요.');
  }catch(e){tell(e.message,true)}finally{setBusy(false)}
 }
-async function resetCrop(){const b=getBlock();if(!b?.original||state.busy)return;setBusy(true);try{const src=await pageCanvas(b.page);if(!src)throw Error('같은 원본 PDF 또는 이미지를 다시 선택해 주세요.');b.rect={...b.original};await freezeBlock(b,src,b.originalReferenceWidth||b.referenceWidth);state.crop=null;await renderSource();renderList();await renderOutput()}catch(e){tell(e.message,true)}finally{setBusy(false)}}
+async function resetCrop(){const b=getBlock();if(!b?.original||state.busy)return;setBusy(true);try{const src=await pageCanvas(b.page);if(!src)throw Error('같은 원본 PDF 또는 이미지를 다시 선택해 주세요.');b.rect={...b.original};b.sharedRect=b.originalSharedRect?{...b.originalSharedRect}:null;await freezeBlock(b,src,b.originalReferenceWidth||b.referenceWidth);state.crop=null;await renderSource();renderList();await renderOutput()}catch(e){tell(e.message,true)}finally{setBusy(false)}}
 async function blobDataURL(blob){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error('작업 이미지를 읽지 못했어요.'));r.readAsDataURL(blob)})}
 async function projectSnapshot(){
- const blocks=[];for(const b of state.blocks)blocks.push({kind:b.kind,group:b.group,page:b.page,label:b.label,selected:b.selected,width:b.width,height:b.height,referenceWidth:b.referenceWidth,bodyHeight:b.bodyHeight,number:b.number,sourceNumbers:b.sourceNumbers,audited:b.audited,verifiedConcept:b.verifiedConcept,image:await blobDataURL(b.asset)});
+ const blocks=[];for(const b of state.blocks)blocks.push({kind:b.kind,group:b.group,page:b.page,label:b.label,selected:b.selected,width:b.width,height:b.height,referenceWidth:b.referenceWidth,bodyHeight:b.bodyHeight,number:b.number,sourceNumbers:b.sourceNumbers,audited:b.audited,book:b.book,verifiedConcept:b.verifiedConcept,image:await blobDataURL(b.asset)});
  return{format:'folio-lesson-v3',settings:selectedSettings(),blocks};
 }
 async function saveProject(){if(state.busy)return;setBusy(true);try{download(new Blob([JSON.stringify(await projectSnapshot())],{type:'application/json'}),'수업교재_작업.json');toast('배율과 원본 조각을 함께 저장했어요.')}catch(e){tell(e.message,true)}finally{setBusy(false)}}
@@ -2027,9 +2054,9 @@ async function openProject(f){
  if(!f||state.busy)return;setBusy(true);
  try{if(f.size>150*1024*1024)throw Error('작업 파일은 150MB 이하로 선택해 주세요.');const p=JSON.parse(await f.text());if(!['folio-lesson-v1','folio-lesson-v2','folio-lesson-v3'].includes(p.format)||!Array.isArray(p.blocks)||p.blocks.length>2000)throw Error('Folio 작업 파일이 아니에요.');const blocks=[];
   for(const a of p.blocks){if(!/^data:image\/(png|jpeg);base64,/.test(a.image))throw Error('작업 이미지 형식이 올바르지 않아요.');const blob=new Blob([bytes64(a.image.split(',')[1])],{type:a.image.includes('image/png')?'image/png':'image/jpeg'}),im=await imageFromBlob(blob);if(im.width*im.height>20_000_000){im.close?.();throw Error('작업 이미지 한 개의 크기가 너무 커요.')}
-   const b=newBlock({kind:['concept','rep','apply'].includes(a.kind)?a.kind:'apply',group:+a.group||0,page:+a.page||1,label:String(a.label||''),selected:!!a.selected,number:a.number||null,sourceNumbers:Array.isArray(a.sourceNumbers)?a.sourceNumbers:[],verifiedConcept:!!a.verifiedConcept});await freezeBlock(b,im,Number.isFinite(a.referenceWidth)&&a.referenceWidth>0?a.referenceWidth:null);im.close?.();b.audited=p.format==='folio-lesson-v3'&&a.audited===true&&b.sourceNumbers.length<=1;blocks.push(b);
+   const b=newBlock({kind:['concept','rep','apply'].includes(a.kind)?a.kind:'apply',group:+a.group||0,page:+a.page||1,label:String(a.label||''),selected:!!a.selected,number:a.number||null,sourceNumbers:Array.isArray(a.sourceNumbers)?a.sourceNumbers:[],verifiedConcept:!!a.verifiedConcept,book:a.book==='rpm'?'rpm':undefined});await freezeBlock(b,im,Number.isFinite(a.referenceWidth)&&a.referenceWidth>0?a.referenceWidth:null);im.close?.();b.audited=p.format==='folio-lesson-v3'&&a.audited===true&&b.sourceNumbers.length<=1;blocks.push(b);
   }
-  normalizeUnknownScales(blocks);const s=p.settings||{};$('titleInput').value=s.title||'수업교재';$('spaceInput').value=[100,165,245].includes(+s.space)?String(s.space):'165';$('themeInput').value=s.theme==='mono'?'mono':'navy';$('conceptCheck').checked=s.concept!==false;$('paperCleanupCheck').checked=s.paperCleanup!==false;
+  normalizeUnknownScales(blocks);const s=p.settings||{};$('titleInput').value=s.title||'수업교재';$('spaceInput').value=[100,165,245].includes(+s.space)?String(s.space):'165';$('themeInput').value=s.theme==='mono'?'mono':'navy';$('conceptCheck').checked=s.concept!==false;$('paperCleanupCheck').checked=s.paperCleanup!==false;$('bookInput').value=['rpm','ssen'].includes(s.book)?s.book:'auto';$('numberInput').value=String(s.numbers||'');$('selectedOnlyCheck').checked=s.selectedOnly===true;$('numberSelectionStatus').textContent='번호를 입력해 선택을 바꿀 수 있어요.';
   clearBitmaps();state.blocks=blocks;state.active=null;state.crop=null;$('modePill').textContent='저장한 작업';renderList();renderEditor();await renderOutput();setTab('preview');tell('저장한 조각과 배율을 불러왔어요. 범위를 다시 자르려면 같은 원본 PDF를 선택하세요.');
  }catch(e){tell(e.message,true)}finally{setBusy(false);$('projectInput').value=''}
 }
@@ -2078,8 +2105,20 @@ class EmbeddedPDFData{
 }
 class PDFSource{
  static async open(bytes){const api=await pdfEngine(),task=api.getDocument({data:bytes,BinaryDataFactory:EmbeddedPDFData,useWorkerFetch:false,isEvalSupported:false,enableXfa:false,cMapPacked:true}),doc=await task.promise;return new PDFSource(doc,api,task)}
- constructor(doc,api,task){this.doc=doc;this.api=api;this.task=task;this.pages=Array.from({length:doc.numPages},(_,i)=>i);this.textCache=new Map()}
+ constructor(doc,api,task){this.doc=doc;this.api=api;this.task=task;this.pages=Array.from({length:doc.numPages},(_,i)=>i);this.textCache=new Map();this.itemsCache=new Map()}
  async render(index){const page=await this.doc.getPage(index+1),unit=page.getViewport({scale:1}),scale=Math.min(300/72,5000/Math.max(unit.width,unit.height)),viewport=page.getViewport({scale}),out=canvas(viewport.width,viewport.height);await page.render({canvasContext:out.getContext('2d'),viewport,background:'rgb(255,255,255)',intent:'print'}).promise;page.cleanup();return out}
+ async bookProfile(){
+  if(this.profile)return this.profile;
+  const text=await (await this.doc.getPage(1)).getTextContent();
+  return this.profile=/RPM/i.test(text.items.map(a=>a.str||'').join(''))?'rpm':'ssen';
+ }
+ async pageItems(index){
+  if(this.itemsCache.has(index))return this.itemsCache.get(index);
+  const page=await this.doc.getPage(index+1),unit=page.getViewport({scale:1}),scale=Math.min(300/72,5000/Math.max(unit.width,unit.height)),viewport=page.getViewport({scale}),content=await page.getTextContent();
+  const out=content.items.filter(a=>a.str?.trim()).map(a=>{const t=this.api.Util.transform(viewport.transform,a.transform),h=Math.hypot(t[2],t[3]);return{text:a.str,x:t[4],y:t[5]-h,w:a.width*scale,h}});
+  // Cache only a few pages of native text alongside the bounded source canvas cache.
+  if(this.itemsCache.size>=3)this.itemsCache.delete(this.itemsCache.keys().next().value);this.itemsCache.set(index,out);return out;
+ }
  async numberHeaders(index){
   if(this.textCache.has(index))return this.textCache.get(index);
   const page=await this.doc.getPage(index+1),unit=page.getViewport({scale:1}),scale=Math.min(300/72,5000/Math.max(unit.width,unit.height)),viewport=page.getViewport({scale}),text=await page.getTextContent(),out=[];
@@ -2307,7 +2346,61 @@ function groupConceptHeaders(headers,anchors=[]){
   }out.push(a);
  }return out;
 }
+// RPM uses four-digit native number anchors; concept/type boxes never become candidates.
+// Work on an analysis copy, then crop the original at its original pixel scale.
+async function segmentRPM(src,colMode,options={}){
+ if(!options.nativeHeaders?.length)return[];
+ const scale=Math.min(1,850/src.width),c=canvas(src.width*scale,src.height*scale),g=c.getContext('2d');g.drawImage(src,0,0,c.width,c.height);
+ const W=c.width,H=c.height,data=g.getImageData(0,0,W,H).data,bottom=Math.floor(H*.957),items=(options.nativeItems||[]).map(a=>({...a,x:a.x*scale,y:a.y*scale,w:a.w*scale,h:a.h*scale}));
+ let headers=options.nativeHeaders.filter(a=>a.height>=src.width*.018&&a.height<=src.width*.027).map(a=>({...a,left:a.left*scale,y:a.y*scale,end:a.end*scale,height:a.height*scale})).filter(a=>a.y>H*.025&&a.y<bottom);
+ const result=[],groups=colMode==='1'?[headers]:[headers.filter(a=>a.left<W*.5),headers.filter(a=>a.left>=W*.5)];
+ for(let col=0;col<groups.length;col++){
+  let hs=groups[col];if(!hs.length)continue;
+  const aligned=hs.map(a=>({x:a.left,n:hs.filter(b=>Math.abs(b.left-a.left)<5).length})).sort((a,b)=>b.n-a.n||a.x-b.x)[0].x;
+  hs=hs.sort((a,b)=>Math.abs(a.y-b.y)<Math.min(a.height,b.height)*.45?a.left-b.left:a.y-b.y);
+  const left=Math.max(0,Math.floor(aligned-5)),span=groups.length===1?W-left:W*.45;
+  const opposite=groups[1]?.length?groups[1].map(a=>({x:a.left,n:groups[1].filter(b=>Math.abs(b.left-a.left)<5).length})).sort((a,b)=>b.n-a.n)[0].x:W*.55;
+  let right=Math.floor(groups.length===1?W-14:col===0?opposite-24:W-14);
+  if(col===groups.length-1)for(let x=Math.max(left,Math.floor(W*.92));x<right;x++){
+   let run=0,longest=0;for(let y=0;y<bottom;y++){const k=(y*W+x)*4;run=Math.max(data[k],data[k+1],data[k+2])-Math.min(data[k],data[k+1],data[k+2])>50&&Math.min(data[k],data[k+1],data[k+2])<235?run+1:0;longest=Math.max(longest,run)}if(longest>H*.1){right=x-4;break}
+  }
+  const mask=new Uint8Array(W*H);
+  for(let y=0;y<bottom;y++)for(let x=left;x<right;x++){const k=(y*W+x)*4;if(Math.min(data[k],data[k+1],data[k+2])<190)mask[y*W+x]=1}
+  // Retain long pale box/axis strokes when finding the bounds, without changing the crop pixels.
+  for(let y=0;y<bottom;y++){let first=-1;for(let x=left;x<=right;x++){const k=(y*W+x)*4,ink=x<right&&Math.min(data[k],data[k+1],data[k+2])<230;if(ink){if(first<0)first=x}else if(first>=0){if(x-first>=18)for(let z=first;z<x;z++)mask[y*W+z]=1;first=-1}}}
+  for(let x=left;x<right;x++){let first=-1;for(let y=0;y<=bottom;y++){const k=(y*W+x)*4,ink=y<bottom&&Math.min(data[k],data[k+1],data[k+2])<230;if(ink){if(first<0)first=y}else if(first>=0){if(y-first>=24)for(let z=first;z<y;z++)mask[z*W+x]=1;first=-1}}}
+  const boundaries=items.filter(a=>a.x>=left&&a.x<left+span*.25&&/^유형$/.test(a.text.trim())).map(a=>a.y-14);
+  // A long tinted title bar also separates the introductory exercise groups.
+  let run=-1;
+  for(let y=0;y<bottom;y++){
+   let count=0;for(let x=left;x<right;x++){const k=(y*W+x)*4,r=data[k],v=data[k+1],b=data[k+2];if(v>r+3&&v>b-7&&Math.max(r,v,b)-Math.min(r,v,b)>8&&Math.min(r,v,b)>145&&Math.max(r,v,b)<253)count++}
+   if(count>(right-left)*.62){if(run<0)run=y}else if(run>=0){if(y-run>=3)boundaries.push(run-3);run=-1}
+  }
+  const stems=[];
+  for(const a of items){const m=a.text.match(/^\[\s*(\d{4})\s*[~～–-]\s*(\d{4})\s*\]/);if(!m||a.x<left||a.x>left+span*.25)continue;const first=hs.find(h=>+h.number>=+m[1]&&+h.number<=+m[2]&&h.y>a.y);if(first)stems.push({first:+m[1],last:+m[2],top:a.y-3,end:first.y-3})}
+  const bounds=(top,end,cellLeft=left,cellRight=right)=>{
+   let l=cellRight,r=cellLeft,t=end,b=top,ink=0;
+   for(let y=Math.max(0,Math.floor(top));y<Math.min(bottom,Math.ceil(end));y++)for(let x=cellLeft;x<cellRight;x++){
+    if(mask[y*W+x]){l=Math.min(l,x);r=Math.max(r,x);t=Math.min(t,y);b=Math.max(b,y);ink++}
+   }
+   if(ink<10)return null;
+   const pad=4;return{x:Math.max(cellLeft,l-pad)/scale,y:Math.max(top,t-pad)/scale,w:(Math.min(cellRight,r+pad+1)-Math.max(cellLeft,l-pad))/scale,h:(Math.min(end,b+pad+1)-Math.max(top,t-pad))/scale};
+  };
+  for(let i=0;i<hs.length;i++){
+   const h=hs[i],row=hs.filter(a=>Math.abs(a.y-h.y)<h.height*.45).sort((a,b)=>a.left-b.left),position=row.indexOf(h),next=hs.find(a=>a.y>h.y+h.height*.45),top=Math.max(0,h.y-4);let end=next?next.y-4:bottom;
+   const cellLeft=position>0?Math.floor(h.left-5):left,cellRight=position+1<row.length?Math.floor(row[position+1].left-5):right;
+   for(const y of [...boundaries,...stems.map(a=>a.top)])if(y>h.end+3&&y<end)end=y;
+   const rect=bounds(top,end,cellLeft,cellRight);if(!rect)continue;
+   const shared=stems.find(a=>+h.number>=a.first&&+h.number<=a.last&&a.top<h.y),sharedRect=shared?bounds(shared.top,shared.end):null;
+   const rep=items.some(a=>a.text.includes('대표문제')&&Math.abs(a.y-h.y)<h.height&&a.x>h.left&&a.x<right);
+   result.push({number:h.number,kind:rep?'rep':'apply',rect,sharedRect,referenceWidth:span/scale,col,book:'rpm',verifiedConcept:false});
+  }
+ }
+ releaseCanvas(c);return result;
+}
+
 async function segment(src,colMode,options={}){
+ if(options.book==='rpm')return segmentRPM(src,colMode,options);
  const scale=Math.min(1,850/src.width),c=canvas(src.width*scale,src.height*scale),g=c.getContext('2d');g.drawImage(src,0,0,c.width,c.height);
  const W=c.width,H=c.height,data=g.getImageData(0,0,W,H).data,mask=new Uint8Array(W*H),xh=new Uint32Array(W),rh=new Uint32Array(W),start=options.cropped?0:22,bottom=options.cropped?H:Math.floor(H*.94);
  for(let y=start;y<bottom;y++)for(let x=options.cropped?0:24;x<W-(options.cropped?0:24);x++){
@@ -2469,6 +2562,7 @@ $('popoutBtn').onclick=openStandaloneWindow;
 $('launchBtn').onclick=openStandaloneWindow;
 $('downloadAppBtn').onclick=downloadStandaloneApp;
 
+$('selectNumbersBtn').onclick=selectNumbers;$('selectedOnlyCheck').onchange=renderList;$('numberInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();selectNumbers()}};
 $('uploadBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=e=>importFiles(e.target.files);$('analyzeBtn').onclick=analyze;$('seedBtn').onclick=loadSeed;$('pairBtn').onclick=()=>selectPairs();$('allBtn').onclick=()=>{state.blocks.forEach(b=>b.selected=true);renderList();schedule()};$('noneBtn').onclick=()=>{state.blocks.forEach(b=>b.selected=false);renderList();schedule()};$('conceptCheck').onchange=()=>{renderList();schedule()};for(const id of ['titleInput','spaceInput','themeInput','paperCleanupCheck'])$(id).addEventListener('input',schedule);$('previewTab').onclick=()=>setTab('preview');$('sourceTab').onclick=()=>setTab('source');for(const id of ['kindInput','groupInput','labelInput'])$(id).addEventListener('input',editField);$('applyCropBtn').onclick=()=>applyCrop(false);$('addCropBtn').onclick=()=>applyCrop(true);$('resetCropBtn').onclick=resetCrop;$('removeBtn').onclick=()=>{state.blocks=state.blocks.filter(b=>b.id!==state.active);state.active=null;state.crop=null;renderList();renderEditor();schedule()};$('pdfBtn').onclick=exportPDF;$('printBtn').onclick=printPages;$('saveBtn').onclick=saveProject;$('openBtn').onclick=()=>$('projectInput').click();$('projectInput').onchange=e=>openProject(e.target.files[0]);$('helpBtn').onclick=()=>$('help').classList.remove('hidden');$('closeHelpBtn').onclick=()=>$('help').classList.add('hidden');$('help').onclick=e=>{if(e.target===$('help'))$('help').classList.add('hidden')};$('sourcePageInput').onchange=()=>{const total=state.pdf?.pages.length||state.images.length;if(total){state.active=null;renderEditor();renderSource(Math.max(1,Math.min(total,+$('sourcePageInput').value||1)))}};$('prevPageBtn').onclick=()=>{if(state.sourcePage>1){state.active=null;renderEditor();renderSource(state.sourcePage-1)}};$('nextPageBtn').onclick=()=>{const total=state.pdf?.pages.length||state.images.length;if(state.sourcePage<total){state.active=null;renderEditor();renderSource(state.sourcePage+1)}};document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('help').classList.add('hidden');state.crop=null;showSelection(null);renderEditor()}});for(const name of ['dragenter','dragover'])$('uploadBtn').addEventListener(name,e=>{e.preventDefault();$('uploadBtn').classList.add('drop-active')});$('uploadBtn').addEventListener('dragleave',()=>$('uploadBtn').classList.remove('drop-active'));$('uploadBtn').addEventListener('drop',e=>{e.preventDefault();$('uploadBtn').classList.remove('drop-active');importFiles(e.dataTransfer.files)});(async()=>{if(window.__FOLIO_PROJECT__)await openProject(new Blob([JSON.stringify(window.__FOLIO_PROJECT__)],{type:'application/json'}));else await loadSeed()})().catch(e=>tell('앱을 시작하지 못했어요: '+e.message,true));
 
 </script>
