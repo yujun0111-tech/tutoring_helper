@@ -13,11 +13,16 @@ test('provided RPM: numbered questions, complete shared stems, number entry and 
  const executablePath=process.env.CHROMIUM_PATH||(existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined),browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{}),args:['--no-sandbox']});t.after(()=>browser.close());
  const page=await browser.newPage({viewport:{width:1500,height:1100}});page.setDefaultTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setContent(html);await page.waitForFunction(()=>!state.busy&&state.plans?.length);await page.locator('#fileInput').setInputFiles(pdf);await page.waitForFunction(()=>!state.busy&&state.pdf?.pages.length===165);
  assert.equal(await page.evaluate(()=>state.pdf.bookProfile()),'rpm');await page.evaluate(()=>{state.rpmSample=[]});
+ if(process.env.RPM_REFERENCE_PDF){const bytes=(await fs.readFile(process.env.RPM_REFERENCE_PDF)).toString('base64');await page.evaluate(async data=>{state.rpmReference=await PDFSource.open(bytes64(data))},bytes)}
  const sample=[1,3,10,18,25,37,54,70,87,96,120,145,193,194,200,300,415,580,700,850,962,1000,1100,1132],report=[];
  await t.test('all 165 pages yield exactly the printed questions 0001–1132 and zero concept fragments',async()=>{
   for(const [n,first,last]of expected.pages){
    const result=await page.evaluate(async({n,sample})=>{
     const c=await pageCanvas(n),parts=await segment(c,'auto',{book:'rpm',nativeHeaders:await state.pdf.numberHeaders(n-1),nativeItems:await state.pdf.pageItems(n-1)});
+    let referenceEqual=null,referenceDebug=null;
+    if(state.rpmReference){const ref=await state.rpmReference.render(n-1,{includeBackground:true}),a=c.getContext('2d').getImageData(0,0,c.width,c.height).data,b=ref.getContext('2d').getImageData(0,0,ref.width,ref.height).data;referenceEqual=a.length===b.length&&a.every((v,i)=>v===b[i]);
+     if(!referenceEqual){let changed=0,max=0,x0=c.width,y0=c.height,x1=0,y1=0;for(let k=0;k<a.length;k+=4)if(a[k]!==b[k]||a[k+1]!==b[k+1]||a[k+2]!==b[k+2]){changed++;max=Math.max(max,Math.abs(a[k]-b[k]),Math.abs(a[k+1]-b[k+1]),Math.abs(a[k+2]-b[k+2]));const x=k/4%c.width,y=Math.floor(k/4/c.width);x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}referenceDebug={changed,max,box:[x0,y0,x1,y1],actual:c.toDataURL().split(',')[1],reference:ref.toDataURL().split(',')[1]}}
+     releaseCanvas(ref)}
     const scale=850/c.width,proof=canvas(850,c.height*scale),g=proof.getContext('2d');g.drawImage(c,0,0,proof.width,proof.height);g.font='bold 13px sans-serif';g.lineWidth=1.5;
     for(const a of parts){const r=a.rect;g.strokeStyle='#087cb6';g.strokeRect(r.x*scale,r.y*scale,r.w*scale,r.h*scale);g.fillStyle='#07578b';g.fillText(a.number,r.x*scale,Math.max(14,r.y*scale-3));if(a.sharedRect){const q=a.sharedRect;g.strokeStyle='#8d30c0';g.strokeRect(q.x*scale,q.y*scale,q.w*scale,q.h*scale)}
      if(sample.includes(+a.number)){
@@ -29,14 +34,15 @@ test('provided RPM: numbered questions, complete shared stems, number entry and 
       b.pixelExact=equal(a.rect,sh+gap)&&(!a.sharedRect||equal(a.sharedRect,0));releaseCanvas(copy);state.rpmSample.push(b);
      }
     }
-    const png=proof.toDataURL('image/jpeg',.8).split(',')[1];releaseCanvas(proof);return{page:n,parts,png};
+    const png=proof.toDataURL('image/jpeg',.8).split(',')[1];releaseCanvas(proof);return{page:n,parts,png,referenceEqual,referenceDebug,background:state.pdf.backgroundReport.get(n-1)};
    },{n,sample});
+   if(result.referenceDebug){for(const key of ['actual','reference']){await fs.writeFile(path.join(out,`difference-${n}-${key}.png`),Buffer.from(result.referenceDebug[key],'base64'));delete result.referenceDebug[key]}console.log('Reference difference',n,result.referenceDebug,result.background)}
    assert.deepEqual(result.parts.map(a=>+a.number),first===null?[]:Array.from({length:last-first+1},(_,i)=>first+i),`PDF page ${n}`);
    for(const a of result.parts){assert.notEqual(a.kind,'concept');assert(a.rect.w>0&&a.rect.h>0);assert.equal(a.book,'rpm')}
    for(let i=0;i<result.parts.length;i++)for(let j=i+1;j<result.parts.length;j++){const a=result.parts[i].rect,b=result.parts[j].rect,overlapX=Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x),overlapY=Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y);assert(overlapX<=1||overlapY<=1,`page ${n}: adjacent questions overlap`)}
    if(result.parts.length||n<3)await fs.writeFile(path.join(out,`page-${String(n).padStart(3,'0')}.jpg`),Buffer.from(result.png,'base64'));delete result.png;report.push(result);if(n%20===0)console.log(`Checked ${n}/165 RPM pages`);
   }
-  assert.equal(report.flatMap(p=>p.parts).length,1132);await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report));
+  assert.equal(report.flatMap(p=>p.parts).length,1132);await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report));if(process.env.RPM_REFERENCE_PDF)assert.deepEqual(report.filter(p=>!p.referenceEqual).map(p=>({page:p.page,...p.referenceDebug})),[],'foreground differences from independent reference');
  });
  await t.test('number input before extraction selects only 0003, 0018, 0025, keeps their stems and reports unavailable 9999',async()=>{
   await page.locator('#rangeInput').fill('2-4');await page.locator('#numberInput').fill('3, 18, 25, 9999');await page.locator('#analyzeBtn').click();await page.waitForFunction(()=>!state.busy&&state.blocks.length===25);
@@ -50,7 +56,7 @@ test('provided RPM: numbered questions, complete shared stems, number entry and 
   const all=await page.evaluate(records=>makePlans(records.map(a=>({...a,width:a.rect.w,height:a.rect.h+(a.sharedRect?.h||0),sourceNumbers:[a.number]})),selectedSettings()).map(p=>p.items.map(i=>({column:i.slot>>1,span:i.span}))),report.flatMap(p=>p.parts));
   for(const items of all){assert(items.length<=4);for(const col of [0,1])assert(items.filter(i=>i.column===col).length<=2)}
   await fs.writeFile(path.join(out,'rpm-sample.pdf'),Buffer.from(result.pdf.split(',')[1],'base64'));await fs.writeFile(path.join(out,'rpm-sample.json'),JSON.stringify(result.project));
-  await fs.writeFile(path.join(out,'summary.json'),JSON.stringify({sourceHash:expected.sourceHash,appHash:crypto.createHash('sha256').update(html).digest('hex'),pages:165,questions:1132,sample:sample.length,pixelExact:true,allBookOutputPages:all.length,sampleLayout:result.sampleLayout},null,2));
+  await fs.writeFile(path.join(out,'summary.json'),JSON.stringify({sourceHash:expected.sourceHash,appHash:crypto.createHash('sha256').update(html).digest('hex'),pages:165,questions:1132,sample:sample.length,pixelExact:true,referencePages:report.filter(p=>p.referenceEqual===true).length,excludedBackgroundImages:report.reduce((n,p)=>n+(p.background?.images||0),0),excludedStamps:report.reduce((n,p)=>n+(p.background?.texts||0),0),allBookOutputPages:all.length,sampleLayout:result.sampleLayout},null,2));
  });
  assert.deepEqual(errors,[]);
 });
